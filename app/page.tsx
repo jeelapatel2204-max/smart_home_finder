@@ -174,6 +174,12 @@ function PropertyCard({
           <span><strong>{property.baths}</strong> baths</span>
           <span><strong>{property.squareFeet.toLocaleString()}</strong> sqft</span>
         </div>
+        <span className="property-investment-label">
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M2 12.5h12M3.5 10V7.5M8 10V3.5M12.5 10V5" />
+          </svg>
+          Investment Analysis
+        </span>
         <button
           className="score-row score-row-button"
           type="button"

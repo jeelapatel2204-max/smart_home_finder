@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { Property } from "../../data/properties";
+import { InvestmentAnalysis } from "../../components/investment/InvestmentAnalysis";
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("en-US", {
@@ -48,7 +50,7 @@ export function PropertyDetailContent({ property }: { property: Property }) {
     <main className="property-detail-page">
       <header className="site-header detail-header">
         <div className="header-inner">
-          <a className="brand" href="/" aria-label="Smart Home Finder home">
+          <Link className="brand" href="/" aria-label="Smart Home Finder home">
             <span className="brand-mark" aria-hidden="true">
               <svg viewBox="0 0 36 36">
                 <path d="m5 16 13-11 13 11v14H5V16Z" />
@@ -56,7 +58,7 @@ export function PropertyDetailContent({ property }: { property: Property }) {
               </svg>
             </span>
             <span>Smart Home Finder</span>
-          </a>
+          </Link>
           <button type="button" className="sign-in-button" onClick={() => router.push("/")}>
             Back to listings
           </button>
@@ -149,6 +151,7 @@ export function PropertyDetailContent({ property }: { property: Property }) {
             </div>
           </section>
         </div>
+        <InvestmentAnalysis property={property} />
       </div>
     </main>
   );

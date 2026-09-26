@@ -33,6 +33,12 @@ export type Property = {
   label: string;
   description: string;
   monthlyCost: MonthlyCost;
+  estimatedMonthlyRent: number;
+  defaultVacancyRate: number;
+  defaultMaintenanceRate: number;
+  defaultAnnualAppreciationRate: number;
+  defaultDownPaymentPercent: number;
+  defaultInterestRate: number;
 };
 
 export const properties: Property[] = [
@@ -69,6 +75,12 @@ export const properties: Property[] = [
       hoa: 0,
       total: 7745,
     },
+    estimatedMonthlyRent: 5900,
+    defaultVacancyRate: 5,
+    defaultMaintenanceRate: 6,
+    defaultAnnualAppreciationRate: 3.2,
+    defaultDownPaymentPercent: 20,
+    defaultInterestRate: 6.75,
   },
   {
     id: 2,
@@ -103,6 +115,12 @@ export const properties: Property[] = [
       hoa: 0,
       total: 4940,
     },
+    estimatedMonthlyRent: 3600,
+    defaultVacancyRate: 5,
+    defaultMaintenanceRate: 6,
+    defaultAnnualAppreciationRate: 3.5,
+    defaultDownPaymentPercent: 20,
+    defaultInterestRate: 6.65,
   },
   {
     id: 3,
@@ -137,6 +155,12 @@ export const properties: Property[] = [
       hoa: 175,
       total: 4265,
     },
+    estimatedMonthlyRent: 3100,
+    defaultVacancyRate: 6,
+    defaultMaintenanceRate: 7,
+    defaultAnnualAppreciationRate: 3.8,
+    defaultDownPaymentPercent: 20,
+    defaultInterestRate: 6.8,
   },
   {
     id: 4,
@@ -171,6 +195,12 @@ export const properties: Property[] = [
       hoa: 0,
       total: 4465,
     },
+    estimatedMonthlyRent: 3250,
+    defaultVacancyRate: 5,
+    defaultMaintenanceRate: 6,
+    defaultAnnualAppreciationRate: 3.1,
+    defaultDownPaymentPercent: 20,
+    defaultInterestRate: 6.7,
   },
   {
     id: 5,
@@ -205,6 +235,12 @@ export const properties: Property[] = [
       hoa: 195,
       total: 5805,
     },
+    estimatedMonthlyRent: 4100,
+    defaultVacancyRate: 6,
+    defaultMaintenanceRate: 6,
+    defaultAnnualAppreciationRate: 3.6,
+    defaultDownPaymentPercent: 20,
+    defaultInterestRate: 6.65,
   },
   {
     id: 6,
@@ -239,6 +275,12 @@ export const properties: Property[] = [
       hoa: 0,
       total: 6525,
     },
+    estimatedMonthlyRent: 4650,
+    defaultVacancyRate: 5,
+    defaultMaintenanceRate: 6,
+    defaultAnnualAppreciationRate: 3.4,
+    defaultDownPaymentPercent: 20,
+    defaultInterestRate: 6.7,
   },
 ];
 
