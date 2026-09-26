@@ -1443,6 +1443,48 @@ button {
   padding: 8px 10px;
 }
 
+.investment-heading-actions {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.investment-reset-button {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #dfe8f2;
+  border-radius: 5px;
+  color: #435b7d;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 650;
+  gap: 7px;
+  padding: 8px 10px;
+}
+
+.investment-reset-button:hover {
+  background: #f4f7fa;
+  border-color: #9bb0cb;
+}
+
+.investment-reset-button:focus-visible,
+.investment-info-button:focus-visible {
+  outline: 2px solid rgba(22, 58, 95, 0.35);
+  outline-offset: 2px;
+}
+
+.investment-reset-button svg {
+  fill: none;
+  height: 14px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.4;
+  width: 14px;
+}
+
 .investment-inputs {
   display: grid;
   gap: 14px;
@@ -1511,11 +1553,71 @@ button {
   border-color: #eee2dc;
 }
 
+.investment-metric-heading {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 9px;
+}
+
 .investment-metric p {
   color: #5f6f86;
   font-size: 10px;
   font-weight: 650;
-  margin: 0 0 9px;
+  margin: 0;
+}
+
+.investment-info-wrap {
+  display: inline-flex;
+  flex: 0 0 auto;
+  position: relative;
+}
+
+.investment-info-button {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #bdcbd9;
+  border-radius: 50%;
+  color: #5f6f86;
+  cursor: help;
+  display: inline-flex;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 10px;
+  font-style: italic;
+  height: 15px;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  width: 15px;
+}
+
+.investment-info-tooltip {
+  background: #172033;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 400;
+  left: auto;
+  line-height: 1.55;
+  opacity: 0;
+  padding: 9px 11px;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 7px);
+  transform: translateY(-3px);
+  transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
+  visibility: hidden;
+  width: min(240px, calc(100vw - 56px));
+  z-index: 8;
+}
+
+.investment-info-wrap:hover .investment-info-tooltip,
+.investment-info-wrap:focus-within .investment-info-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .investment-metric strong {
@@ -1542,6 +1644,17 @@ button {
   margin-top: 7px;
 }
 
+.investment-negative-note {
+  background: #fbf7f5;
+  border-left: 3px solid #c89a83;
+  border-radius: 0 4px 4px 0;
+  color: #805a49;
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 14px 0 0;
+  padding: 10px 12px;
+}
+
 .investment-result-strip {
   border-bottom: 1px solid #e7edf5;
   border-top: 1px solid #e7edf5;
@@ -1563,6 +1676,35 @@ button {
 .investment-result-strip strong {
   color: #172033;
   font-size: 12px;
+}
+
+.investment-break-even {
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #e7edf5;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 14px;
+  padding: 11px 13px;
+}
+
+.investment-break-even span:first-child {
+  color: #435b7d;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.investment-break-even strong {
+  color: #172033;
+  font-size: 13px;
+}
+
+.investment-break-even span:last-child {
+  color: #788ca8;
+  font-size: 9px;
+  line-height: 1.5;
 }
 
 .investment-visual-grid {
@@ -1629,9 +1771,10 @@ button {
 }
 
 .investment-chart-label {
-  fill: #788ca8;
+  fill: #52647b;
   font-family: var(--font-geist-sans), sans-serif;
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 600;
 }
 
 .investment-chart-axis-note {
@@ -1639,7 +1782,7 @@ button {
   display: flex;
   font-size: 9px;
   justify-content: space-between;
-  margin: -1px 4px 0 72px;
+  margin: -1px 4px 0 11.4%;
 }
 
 .projection-summary dl {
@@ -1679,6 +1822,12 @@ button {
   color: #163a5f;
   font-size: 12px;
   font-weight: 750;
+}
+
+.projection-label-with-info {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
 }
 
 .investment-analysis .investment-disclaimer {
@@ -1877,6 +2026,12 @@ button {
     gap: 12px;
   }
 
+  .investment-heading-actions {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
   .investment-analysis .investment-heading h2 {
     font-size: 27px;
   }
@@ -1891,7 +2046,7 @@ button {
   }
 
   .investment-chart-axis-note {
-    margin-left: 58px;
+    margin-left: 11.4%;
   }
 }
 

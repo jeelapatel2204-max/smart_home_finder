@@ -27,6 +27,7 @@ export type InvestmentResults = {
   annualNOI: number;
   monthlyCashFlow: number;
   annualCashFlow: number;
+  breakEvenMonthlyRent: number | null;
   capRate: number;
   cashOnCashReturn: number;
   projectedPropertyValue: number;
@@ -76,6 +77,10 @@ export function calculateInvestment(
   const annualNOI = monthlyNOI * 12;
   const monthlyCashFlow = monthlyNOI - monthlyMortgagePayment;
   const annualCashFlow = monthlyCashFlow * 12;
+  const rentContributionRate = 1 - vacancyRate / 100 - maintenanceRate / 100;
+  const breakEvenMonthlyRent = rentContributionRate > 0
+    ? (Math.max(0, fixedMonthlyExpenses) + monthlyMortgagePayment) / rentContributionRate
+    : null;
   const capRate = annualNOI / purchasePrice;
   const cashOnCashReturn = downPayment > 0 ? annualCashFlow / downPayment : 0;
   const totalHoldingMonths = holdingPeriodYears * 12;
@@ -118,6 +123,7 @@ export function calculateInvestment(
     annualNOI,
     monthlyCashFlow,
     annualCashFlow,
+    breakEvenMonthlyRent,
     capRate,
     cashOnCashReturn,
     projectedPropertyValue,

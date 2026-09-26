@@ -6,6 +6,7 @@ import {
   calculateInvestment,
   type InvestmentAssumptions,
 } from "../../lib/investment-calculations";
+import { InvestmentInfoTip } from "./InvestmentInfoTip";
 import { InvestmentMetricCard } from "./InvestmentMetricCard";
 import { PropertyValueChart } from "./PropertyValueChart";
 
@@ -32,8 +33,8 @@ function formatPercent(value: number) {
   return `${(value * 100).toFixed(2)}%`;
 }
 
-export function InvestmentAnalysis({ property }: { property: Property }) {
-  const [assumptions, setAssumptions] = useState<InvestmentAssumptions>({
+function getDefaultAssumptions(property: Property): InvestmentAssumptions {
+  return {
     purchasePrice: property.price,
     downPaymentPercent: property.defaultDownPaymentPercent,
     interestRate: property.defaultInterestRate,
@@ -43,12 +44,20 @@ export function InvestmentAnalysis({ property }: { property: Property }) {
     maintenanceRate: property.defaultMaintenanceRate,
     annualAppreciationRate: property.defaultAnnualAppreciationRate,
     holdingPeriodYears: 5,
-  });
+  };
+}
+
+export function InvestmentAnalysis({ property }: { property: Property }) {
+  const [assumptions, setAssumptions] = useState<InvestmentAssumptions>(
+    () => getDefaultAssumptions(property),
+  );
 
   const results = calculateInvestment(
     assumptions,
     property.monthlyCost.propertyTaxes + property.monthlyCost.insurance + property.monthlyCost.hoa,
   );
+  const negativeCashFlow = results.monthlyCashFlow < 0;
+  const negativeTotalReturn = results.totalEstimatedReturn < 0;
 
   const fields: InputField[] = [
     { key: "purchasePrice", label: "Purchase Price", unit: "$", min: 1, max: 100000000, step: 1000 },
@@ -81,7 +90,19 @@ export function InvestmentAnalysis({ property }: { property: Property }) {
             Estimate rental performance and potential long-term returns using adjustable assumptions.
           </p>
         </div>
-        <span className="investment-sample-badge">MOCK / SAMPLE DATA</span>
+        <div className="investment-heading-actions">
+          <span className="investment-sample-badge">MOCK / SAMPLE DATA</span>
+          <button
+            type="button"
+            className="investment-reset-button"
+            onClick={() => setAssumptions(getDefaultAssumptions(property))}
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M3 5.5A5.5 5.5 0 1 1 2.7 9M3 2.5v3h3" />
+            </svg>
+            Reset assumptions
+          </button>
+        </div>
       </div>
 
       <div className="investment-inputs" aria-label="Investment assumptions">
@@ -112,12 +133,42 @@ export function InvestmentAnalysis({ property }: { property: Property }) {
           detail="After estimated debt service"
           sentiment={results.monthlyCashFlow >= 0 ? "positive" : "negative"}
         />
-        <InvestmentMetricCard label="Cap Rate" value={formatPercent(results.capRate)} detail="Annual NOI / purchase price" />
-        <InvestmentMetricCard label="Cash-on-Cash Return" value={formatPercent(results.cashOnCashReturn)} detail="Annual cash flow / down payment" />
-        <InvestmentMetricCard label="Annual NOI" value={formatCurrency(results.annualNOI)} detail="Before financing costs" sentiment={results.annualNOI >= 0 ? "positive" : "negative"} />
+        <InvestmentMetricCard
+          label="Cap Rate"
+          value={formatPercent(results.capRate)}
+          detail="Annual NOI / purchase price"
+          info="Annual net operating income divided by purchase price. NOI excludes mortgage payments."
+        />
+        <InvestmentMetricCard
+          label="Cash-on-Cash Return"
+          value={formatPercent(results.cashOnCashReturn)}
+          detail="Annual cash flow / down payment"
+          info="Annual cash flow after mortgage principal and interest, divided by the initial down payment."
+          sentiment={results.cashOnCashReturn >= 0 ? "positive" : "negative"}
+        />
+        <InvestmentMetricCard
+          label="Annual NOI"
+          value={formatCurrency(results.annualNOI)}
+          detail="Before financing costs"
+          info="Annual rental income after vacancy, minus property taxes, insurance, HOA, and maintenance. Mortgage payments are excluded."
+          sentiment={results.annualNOI >= 0 ? "positive" : "negative"}
+        />
         <InvestmentMetricCard label="Projected Property Value" value={formatCurrency(results.projectedPropertyValue)} detail={`In ${assumptions.holdingPeriodYears} years`} />
-        <InvestmentMetricCard label="Projected Equity" value={formatCurrency(results.projectedEquity)} detail="Value less remaining loan" />
+        <InvestmentMetricCard
+          label="Projected Equity"
+          value={formatCurrency(results.projectedEquity)}
+          detail="Value less remaining loan"
+          info="Estimated property value at the end of the holding period minus the remaining mortgage balance."
+        />
       </div>
+
+      {(negativeCashFlow || negativeTotalReturn) && (
+        <p className="investment-negative-note" role="status">
+          {negativeCashFlow
+            ? "Based on these assumptions, estimated expenses and financing costs exceed rental income."
+            : "Based on these assumptions, projected equity and cumulative cash flow do not recover the initial down payment."}
+        </p>
+      )}
 
       <div className="investment-result-strip">
         <span>Estimated monthly rental income <strong>{formatCurrency(results.effectiveMonthlyRent)}</strong></span>
@@ -126,6 +177,16 @@ export function InvestmentAnalysis({ property }: { property: Property }) {
         <span>Monthly principal + interest <strong>{formatCurrency(results.monthlyMortgagePayment)}</strong></span>
         <span>Annual cash flow <strong>{formatCurrency(results.annualCashFlow)}</strong></span>
         <span>Loan amount <strong>{formatCurrency(results.loanAmount)}</strong></span>
+      </div>
+
+      <div className="investment-break-even">
+        <span>Break-even monthly rent</span>
+        <strong>
+          {results.breakEvenMonthlyRent === null
+            ? "Not achievable with these assumptions"
+            : formatCurrency(results.breakEvenMonthlyRent)}
+        </strong>
+        <span>Approximate gross rent needed to cover operating expenses and principal + interest.</span>
       </div>
 
       <div className="investment-visual-grid">
@@ -153,7 +214,18 @@ export function InvestmentAnalysis({ property }: { property: Property }) {
             <div><dt>Estimated cumulative cash flow</dt><dd>{formatCurrency(results.cumulativeCashFlow)}</dd></div>
             <div><dt>Estimated remaining mortgage</dt><dd>{formatCurrency(results.remainingMortgageBalance)}</dd></div>
             <div><dt>Estimated owner equity</dt><dd>{formatCurrency(results.projectedEquity)}</dd></div>
-            <div className="projection-total"><dt>Total estimated return</dt><dd>{formatCurrency(results.totalEstimatedReturn)}</dd></div>
+            <div className="projection-total">
+              <dt>
+                <span className="projection-label-with-info">
+                  Total estimated return
+                  <InvestmentInfoTip
+                    label="Total Estimated Return"
+                    text="Projected owner equity plus cumulative cash flow over the holding period, minus the initial down payment."
+                  />
+                </span>
+              </dt>
+              <dd>{formatCurrency(results.totalEstimatedReturn)}</dd>
+            </div>
           </dl>
         </section>
       </div>

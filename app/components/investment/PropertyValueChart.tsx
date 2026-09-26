@@ -5,11 +5,17 @@ type PropertyValueChartProps = {
 };
 
 const chartWidth = 720;
-const chartHeight = 260;
-const padding = { top: 16, right: 22, bottom: 34, left: 72 };
+const chartHeight = 280;
+const padding = { top: 18, right: 24, bottom: 38, left: 82 };
+const axisCurrency = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
 
 function formatAxisValue(value: number) {
-  return `$${Math.round(value / 1000)}k`;
+  return axisCurrency.format(value);
 }
 
 export function PropertyValueChart({ points }: PropertyValueChartProps) {
