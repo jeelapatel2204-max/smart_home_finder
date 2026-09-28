@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
-import { getPropertyById, type Property } from "../../data/properties";
-import { PropertyDetailContent } from "./property-detail-content";
+import { PropertyDetailContent } from "@/features/property-details/components/PropertyDetailContent";
+import { getCityMarketTrend } from "@/features/market-trends/lib/zillow-zhvi";
+import { getPropertyById, type Property } from "@/features/properties/data/properties";
 
 export default async function PropertyDetailPage({
   params,
@@ -14,7 +15,9 @@ export default async function PropertyDetailPage({
     notFound();
   }
 
-  return <PropertyDetailContent property={property} />;
+  const marketTrend = await getCityMarketTrend(property.city, property.state);
+
+  return <PropertyDetailContent property={property} marketTrend={marketTrend} />;
 }
 
 export type { Property };
