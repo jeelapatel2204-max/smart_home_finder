@@ -31,6 +31,16 @@ async function getUsPlaces() {
   return placesPromise;
 }
 
+export function matchesPlaceQuery(place: { name: string; state: string }, query: string) {
+  const cityName = place.name.replace(/\s+(city|town|village|CDP)$/i, "");
+  const normalizedQuery = normalize(query);
+  return [
+    cityName,
+    `${cityName} ${place.state}`,
+    `${cityName} ${usStateNames[place.state] ?? ""}`,
+  ].some((location) => normalize(location).startsWith(normalizedQuery));
+}
+
 export async function getUsLocationSuggestions(query: string): Promise<LocationSuggestion[]> {
   const normalizedQuery = normalize(query);
   if (normalizedQuery.length < 2) return [];
@@ -40,7 +50,8 @@ export async function getUsLocationSuggestions(query: string): Promise<LocationS
     .map(([abbreviation, name]) => ({ label: `${name} (${abbreviation})`, value: name, kind: "State" as const }));
   const places = await getUsPlaces();
   const cities = places
-    .filter((place) => normalize(place.name).startsWith(normalizedQuery))
+    .filter((place) => matchesPlaceQuery(place, normalizedQuery))
+    .sort((first, second) => `${first.name} ${first.state}`.localeCompare(`${second.name} ${second.state}`))
     .slice(0, Math.max(0, 8 - states.length))
     .map((place) => {
       const cityName = place.name.replace(/\s+(city|town|village|CDP)$/i, "");

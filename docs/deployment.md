@@ -15,7 +15,7 @@ Use Vercel to publish a test version of this Next.js app.
 
 ## Before sharing the test URL
 
-- Apply `supabase/migrations/20260928000001_feedback.sql` in the Supabase SQL Editor so signed-in feedback works.
+- Apply `supabase/migrations/20260928000001_feedback.sql` and `supabase/migrations/20260928000002_seller_inquiries.sql` in the Supabase SQL Editor so signed-in feedback and seller requests work.
 - Create a test account, save a home, save a search, edit the profile, and submit feedback.
 - Verify the Privacy and Terms pages load.
 - Test the site on a phone and a desktop browser.

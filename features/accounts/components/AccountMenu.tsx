@@ -22,13 +22,16 @@ export function AccountMenu() {
   useEffect(() => {
     const supabase = getSupabaseBrowserClient();
     if (!supabase) return undefined;
-
     function loadUser(nextUser: User | null) {
       setUser(nextUser);
-      setFirstName(typeof nextUser?.user_metadata.first_name === "string" ? nextUser.user_metadata.first_name : "");
-      setLastName(typeof nextUser?.user_metadata.last_name === "string" ? nextUser.user_metadata.last_name : "");
-      setPhone(typeof nextUser?.user_metadata.phone === "string" ? nextUser.user_metadata.phone : "");
+      const nextFirstName = typeof nextUser?.user_metadata.first_name === "string" ? nextUser.user_metadata.first_name : "";
+      const nextLastName = typeof nextUser?.user_metadata.last_name === "string" ? nextUser.user_metadata.last_name : "";
+      const nextPhone = typeof nextUser?.user_metadata.phone === "string" ? nextUser.user_metadata.phone : "";
+      setFirstName(nextFirstName);
+      setLastName(nextLastName);
+      setPhone(nextPhone);
       setNewEmail(nextUser?.email ?? "");
+
     }
 
     supabase.auth.getUser().then(({ data }) => loadUser(data.user));

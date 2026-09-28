@@ -761,7 +761,7 @@ button {
 .listings-map-layout {
   display: grid;
   gap: 20px;
-  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  grid-template-columns: minmax(460px, 1.35fr) minmax(480px, 1fr);
 }
 
 .listings-map-column {
@@ -769,7 +769,28 @@ button {
 }
 
 .listings-map-panel {
-  min-height: 620px;
+  height: calc(100vh - 32px);
+  min-height: 680px;
+  position: sticky;
+  top: 16px;
+}
+
+.listings-map-list .property-grid {
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.listings-map-list .property-photo {
+  height: 170px;
+}
+
+.listings-map-list .property-details {
+  padding: 14px;
+}
+
+.listings-map-list .property-investment-label,
+.listings-map-list .compare-property-button {
+  display: none;
 }
 
 .property-map-shell {
@@ -789,7 +810,7 @@ button {
   display: flex;
   font-size: 11px;
   font-weight: 700;
-  min-height: 44px;
+  min-height: 48px;
   padding: 0 14px;
 }
 
@@ -1606,6 +1627,37 @@ button {
 .legal-updated { color: #6d7f9a; font-size: 12px !important; }
 .legal-back { color: var(--green-dark); display: inline-block; font-size: 13px; font-weight: 650; margin-bottom: 42px; }
 
+.seller-hero { background: linear-gradient(120deg, #eef4f7, #f9fbfd); border-bottom: 1px solid #e3ebf3; }
+.seller-hero-inner, .seller-content { margin: 0 auto; max-width: 1120px; padding-left: 32px; padding-right: 32px; }
+.seller-hero-inner { padding-bottom: 70px; padding-top: 76px; }
+.seller-hero h1 { color: #172033; font-family: Georgia, "Times New Roman", serif; font-size: clamp(42px, 5vw, 62px); font-weight: 400; line-height: 1.05; margin: 18px 0; max-width: 700px; }
+.seller-hero p:last-child { color: #53637a; font-size: 16px; line-height: 1.65; margin: 0; max-width: 620px; }
+.seller-content { padding-bottom: 80px; padding-top: 54px; }
+.seller-path-picker { background: #f4f7fa; border: 1px solid #e0e9f1; border-radius: 9px; display: inline-flex; gap: 4px; padding: 4px; }
+.seller-path-picker button { background: transparent; border: 0; border-radius: 6px; color: #5f6f86; cursor: pointer; font: inherit; font-size: 13px; font-weight: 700; padding: 11px 16px; }
+.seller-path-picker button.active { background: #fff; box-shadow: 0 1px 5px rgba(11, 31, 58, .1); color: var(--green); }
+.seller-grid { display: grid; gap: 56px; grid-template-columns: minmax(0, 1fr) minmax(380px, .9fr); margin-top: 38px; }
+.seller-path-copy h2, .seller-inquiry-form h2 { color: #172033; font-family: Georgia, "Times New Roman", serif; font-size: 34px; font-weight: 400; line-height: 1.15; margin: 10px 0 16px; }
+.seller-path-copy > p { color: #53637a; font-size: 15px; line-height: 1.7; }
+.seller-path-copy ul { display: grid; gap: 12px; list-style: none; margin: 24px 0; padding: 0; }
+.seller-path-copy li { color: #334867; font-size: 14px; padding-left: 24px; position: relative; }
+.seller-path-copy li::before { color: #327462; content: "✓"; font-weight: 800; left: 0; position: absolute; }
+.seller-disclosure { border-top: 1px solid #e1eaf2; color: #788ca8 !important; font-size: 12px !important; padding-top: 18px; }
+.seller-inquiry-form { background: #fff; border: 1px solid #dfe8f1; border-radius: 12px; box-shadow: 0 14px 35px rgba(10, 31, 58, .06); display: grid; gap: 16px; padding: 28px; }
+.seller-inquiry-form h2 { font-size: 28px; margin: 0 0 3px; }
+.seller-inquiry-form label { color: #334867; display: grid; font-size: 12px; font-weight: 700; gap: 7px; }
+.seller-inquiry-form em { color: #788ca8; font-size: 10px; font-style: normal; font-weight: 500; }
+.seller-inquiry-form input, .seller-inquiry-form select, .seller-inquiry-form textarea { border: 1px solid #d7e2ec; border-radius: 6px; color: #172033; font: inherit; font-size: 14px; padding: 11px; width: 100%; }
+.seller-inquiry-form textarea { min-height: 100px; resize: vertical; }
+.seller-inquiry-form > button { background: var(--green); border: 0; border-radius: 6px; color: #fff; cursor: pointer; font: inherit; font-size: 13px; font-weight: 700; padding: 13px; }
+.seller-form-status { color: #327462; font-size: 12px; line-height: 1.5; margin: 0; }
+
+@media (max-width: 1050px) {
+  .listings-map-layout { grid-template-columns: 1fr; }
+  .listings-map-panel { height: min(68vh, 620px); min-height: 480px; position: static; }
+  .listings-map-list .property-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 640px) {
   .listing-controls { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
   .listing-sort-control { order: 3; width: 100%; }
@@ -1617,6 +1669,14 @@ button {
   .footer-links { flex-wrap: wrap; }
   .legal-page { padding: 42px 20px; }
   .legal-page h1 { font-size: 39px; }
+  .listings-map-panel { height: 58vh; min-height: 390px; }
+  .listings-map-list .property-grid { grid-template-columns: 1fr; }
+  .listings-map-list .property-photo { height: 220px; }
+  .seller-hero-inner, .seller-content { padding-left: 20px; padding-right: 20px; }
+  .seller-hero-inner { padding-bottom: 48px; padding-top: 50px; }
+  .seller-grid { gap: 30px; grid-template-columns: 1fr; margin-top: 28px; }
+  .seller-path-picker { display: grid; width: 100%; }
+  .seller-path-picker button { text-align: left; }
 }
 
 .property-detail-page {

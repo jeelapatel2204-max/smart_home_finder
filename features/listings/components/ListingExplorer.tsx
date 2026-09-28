@@ -523,6 +523,7 @@ export function ListingExplorer() {
           </a>
           <nav className="main-nav" aria-label="Main navigation">
             <a className="nav-link active" href="#homes" onClick={showAllHomes}>Buy</a>
+            <a className="nav-link" href="/sell">Sell</a>
             <a className="nav-link" href="#homes" onClick={showAllHomes}>Rent</a>
             <a className="nav-link" href="#neighborhood-score">Neighborhoods</a>
             <a
@@ -675,10 +676,10 @@ export function ListingExplorer() {
 
           {viewMode === "map" ? (
             <div className="listings-map-layout">
-              <div className="listings-map-column listings-map-list">{renderListings()}</div>
               <div className="listings-map-column listings-map-panel">
                 <PropertyMap properties={displayedProperties} onViewProperty={handleViewProperty} />
               </div>
+              <div className="listings-map-column listings-map-list">{renderListings()}</div>
             </div>
           ) : (
             renderListings()
@@ -808,7 +809,7 @@ export function ListingExplorer() {
           <span>Smart Home Finder</span>
         </a>
         <span>Find your place. Feel good about the neighborhood.</span>
-        <span className="footer-links"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><FeedbackPanel /></span>
+        <span className="footer-links"><a href="/sell">Sell your home</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><FeedbackPanel /></span>
         <span>© 2026 Smart Home Finder</span>
       </footer>
     </>

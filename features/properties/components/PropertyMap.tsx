@@ -72,6 +72,9 @@ export function PropertyMap({
               key={property.id}
               position={[property.latitude, property.longitude]}
               icon={createMarkerIcon()}
+              eventHandlers={{
+                mouseover: (event) => event.target.openPopup(),
+              }}
             >
               <Popup className="property-map-popup">
                 <div className="property-popup-card">
