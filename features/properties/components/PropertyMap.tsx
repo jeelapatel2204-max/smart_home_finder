@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import type { Property } from "@/features/properties/data/properties";
+import { calculateNeighborhoodScore } from "@/features/neighborhoods/lib/score";
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("en-US", {
@@ -82,7 +83,7 @@ export function PropertyMap({
                   </div>
                   <div className="property-popup-score">
                     <span>Neighborhood Score</span>
-                    <strong>{property.score}</strong>
+                    <strong>{calculateNeighborhoodScore(property.neighborhood).score}</strong>
                   </div>
                   <button
                     type="button"

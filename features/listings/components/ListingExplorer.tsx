@@ -19,6 +19,8 @@ import { AccountMenu } from "@/features/accounts/components/AccountMenu";
 import { SavedSearchPanel } from "@/features/accounts/components/SavedSearchPanel";
 import { loadAccountData, saveAccountProfile, setAccountFavorite } from "@/features/accounts/lib/account-data";
 import { getSupabaseBrowserClient } from "@/features/accounts/lib/supabase-browser";
+import { calculateNeighborhoodScore } from "@/features/neighborhoods/lib/score";
+import { FeedbackPanel } from "@/features/feedback/components/FeedbackPanel";
 
 const PropertyMap = dynamic(
   () => import("@/features/properties/components/PropertyMap").then((module) => module.PropertyMap),
@@ -60,6 +62,8 @@ function NeighborhoodScoreModal({
   property: Property;
   onClose: () => void;
 }) {
+  const neighborhoodScore = calculateNeighborhoodScore(property.neighborhood);
+
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -104,7 +108,7 @@ function NeighborhoodScoreModal({
         <div className="modal-score-summary">
           <span className="modal-score-label">Overall Neighborhood Score</span>
           <div className="modal-score-value">
-            <strong>{property.score}</strong>
+            <strong>{neighborhoodScore.score}</strong>
             <span>/100</span>
           </div>
         </div>
@@ -116,6 +120,9 @@ function NeighborhoodScoreModal({
           <NeighborhoodScoreProgress label="Accessibility" value={property.neighborhood.accessibility} />
           <NeighborhoodScoreProgress label="Housing Value" value={property.neighborhood.housingValue} />
         </div>
+        <p className="score-calculation-note">
+          Calculated as the equal average of the five categories above. Strongest: {neighborhoodScore.strongestFactors.join(" and ")}.
+        </p>
 
         <div className="modal-note">
           <h4>About this score</h4>
@@ -151,6 +158,7 @@ function PropertyCard({
   canCompare: boolean;
   onToggleCompare: (id: number) => void;
 }) {
+  const neighborhoodScore = calculateNeighborhoodScore(property.neighborhood);
   const trueMonthlyCost = calculateTrueMonthlyCost(
     {
       purchasePrice: property.price,
@@ -246,11 +254,11 @@ function PropertyCard({
         >
           <span className="score-caption">Neighborhood Score</span>
           <span className="score-value">
-            <strong>{property.score}</strong><span>/100</span>
+            <strong>{neighborhoodScore.score}</strong><span>/100</span>
           </span>
         </button>
         <div className="score-track" aria-hidden="true">
-          <span style={{ width: `${property.score}%` }} />
+          <span style={{ width: `${neighborhoodScore.score}%` }} />
         </div>
       </div>
     </article>
@@ -293,6 +301,7 @@ export function ListingExplorer() {
   const [maxPriceInput, setMaxPriceInput] = useState("");
   const [appliedLocation, setAppliedLocation] = useState("");
   const [appliedMaxPrice, setAppliedMaxPrice] = useState<number | null>(null);
+  const [sortOrder, setSortOrder] = useState<"recommended" | "price-low" | "price-high" | "neighborhood">("recommended");
   const [favorites, setFavorites] = useState<number[]>([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [activeNeighborhoodProperty, setActiveNeighborhoodProperty] = useState<Property | null>(null);
@@ -408,6 +417,15 @@ export function ListingExplorer() {
 
     return matchesLocation && matchesPrice && matchesFavorites && matchesBudget;
   });
+  const displayedProperties = [...filteredProperties].sort((first, second) => {
+    if (sortOrder === "price-low") return first.price - second.price;
+    if (sortOrder === "price-high") return second.price - first.price;
+    if (sortOrder === "neighborhood") {
+      return calculateNeighborhoodScore(second.neighborhood).score - calculateNeighborhoodScore(first.neighborhood).score;
+    }
+    return matches[second.id].score - matches[first.id].score;
+  });
+  const hasSearchCriteria = Boolean(appliedLocation || appliedMaxPrice !== null || matchFilterApplied);
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -415,6 +433,15 @@ export function ListingExplorer() {
     setShowLocationSuggestions(false);
     const price = Number(maxPriceInput);
     setAppliedMaxPrice(maxPriceInput && price > 0 ? price : null);
+    setShowFavoritesOnly(false);
+  }
+
+  function clearSearch() {
+    setLocationInput("");
+    setMaxPriceInput("");
+    setAppliedLocation("");
+    setAppliedMaxPrice(null);
+    setMatchFilterApplied(false);
     setShowFavoritesOnly(false);
   }
 
@@ -444,9 +471,9 @@ export function ListingExplorer() {
   const comparedProperties = properties.filter((property) => comparisonIds.includes(property.id));
 
   function renderListings() {
-    return filteredProperties.length > 0 ? (
+    return displayedProperties.length > 0 ? (
       <div className="property-grid">
-        {filteredProperties.map((property) => (
+        {displayedProperties.map((property) => (
           <PropertyCard
             key={property.id}
             property={property}
@@ -630,8 +657,17 @@ export function ListingExplorer() {
                   Map View
                 </button>
               </div>
+              <label className="listing-sort-control">
+                <span>Sort</span>
+                <select value={sortOrder} onChange={(event) => setSortOrder(event.target.value as typeof sortOrder)}>
+                  <option value="recommended">Recommended</option>
+                  <option value="price-low">Price: low to high</option>
+                  <option value="price-high">Price: high to low</option>
+                  <option value="neighborhood">Neighborhood score</option>
+                </select>
+              </label>
               <div className="listing-count" aria-live="polite">
-                <span>{filteredProperties.length.toString().padStart(2, "0")}</span>
+                <span>{displayedProperties.length.toString().padStart(2, "0")}</span>
                 {showFavoritesOnly ? " saved homes" : " homes"}
               </div>
             </div>
@@ -641,7 +677,7 @@ export function ListingExplorer() {
             <div className="listings-map-layout">
               <div className="listings-map-column listings-map-list">{renderListings()}</div>
               <div className="listings-map-column listings-map-panel">
-                <PropertyMap properties={filteredProperties} onViewProperty={handleViewProperty} />
+                <PropertyMap properties={displayedProperties} onViewProperty={handleViewProperty} />
               </div>
             </div>
           ) : (
@@ -650,6 +686,11 @@ export function ListingExplorer() {
           {matchFilterApplied && !showFavoritesOnly && (
             <button type="button" className="text-button" onClick={() => setMatchFilterApplied(false)}>
               Show all homes
+            </button>
+          )}
+          {hasSearchCriteria && !showFavoritesOnly && (
+            <button type="button" className="text-button listing-clear-search" onClick={clearSearch}>
+              Clear search and filters
             </button>
           )}
         </section>
@@ -767,6 +808,7 @@ export function ListingExplorer() {
           <span>Smart Home Finder</span>
         </a>
         <span>Find your place. Feel good about the neighborhood.</span>
+        <span className="footer-links"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><FeedbackPanel /></span>
         <span>© 2026 Smart Home Finder</span>
       </footer>
     </>

@@ -9,6 +9,7 @@ Start with [app_idea.md](./app_idea.md). It is the product vision and the author
 | [Buyer usability test](./usability-test.md) | Script and success criteria for the Phase 5 validation sessions |
 | [Supabase setup](./supabase-setup.md) | Create the project, apply the secure account schema, and connect local credentials |
 | [Account testing checklist](./account-test-checklist.md) | Manual steps for verifying account data persists across sessions and devices |
+| [Test deployment](./deployment.md) | Publish a protected test version and configure its environment |
 | [Production data providers](./production-data-providers.md) | Provider choices, credentials, attribution, and fallback behavior for Phase 8 |
 | [Roadmap](./roadmap.md) | Milestones, exit criteria, and dependencies |
 | [Architecture](./architecture.md) | Current codebase, target boundaries, and technical choices |

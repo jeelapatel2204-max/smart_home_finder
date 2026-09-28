@@ -112,8 +112,8 @@ For every work package:
 
 | Work package | Deliverable | Done when |
 | --- | --- | --- |
-| 7.1 Neighborhood contract | Transparent dimension breakdown and source metadata | The UI can show partial data and source freshness |
-| 7.2 Mock neighborhood adapter | Normalized data through the real provider boundary | Domain/UI code never imports raw provider data |
+| 7.1 Neighborhood contract | Transparent dimension breakdown and source metadata | Complete: the five-category score is calculated in one tested domain service and explains its weighting |
+| 7.2 OpenStreetMap neighborhood adapter | Nearby-place counts through a server-side provider boundary | Complete: property pages show source-labeled school, park, grocery, healthcare, and transit counts when available; missing quality and safety data remains unavailable |
 | 7.3 Stress test | Base, moderate, and high-stress scenarios | Each scenario shows altered assumptions and housing burden |
 | 7.4 FutureFit | Deterministic household and home-fit rules | Concerns are stated as fit risks, not predictions |
 

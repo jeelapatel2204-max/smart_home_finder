@@ -13,6 +13,9 @@ import { evaluateProperty } from "@/features/property-matching/lib/evaluate-prop
 import { NearbyPlaces } from "@/features/nearby-places/components/NearbyPlaces";
 import type { MarketTrend } from "@/features/market-trends/lib/zillow-zhvi";
 import type { Property } from "@/features/properties/data/properties";
+import { calculateNeighborhoodScore } from "@/features/neighborhoods/lib/score";
+import { NeighborhoodContext } from "@/features/neighborhoods/components/NeighborhoodContext";
+import type { NeighborhoodContext as NeighborhoodContextData } from "@/features/neighborhoods/lib/context";
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("en-US", {
@@ -49,9 +52,11 @@ function NeighborhoodDetailRow({
 export function PropertyDetailContent({
   property,
   marketTrend,
+  neighborhoodContext,
 }: {
   property: Property;
   marketTrend: MarketTrend | null;
+  neighborhoodContext: NeighborhoodContextData | null;
 }) {
   const router = useRouter();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -67,6 +72,7 @@ export function PropertyDetailContent({
     property.financials,
   );
   const match = evaluateProperty(property, budgetProfile);
+  const neighborhoodScore = calculateNeighborhoodScore(property.neighborhood);
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => setBudgetProfile(loadBudgetProfile()), 0);
@@ -209,7 +215,7 @@ export function PropertyDetailContent({
             <div className="detail-score-summary">
               <span>Overall Neighborhood Score</span>
               <div className="detail-score-value">
-                <strong>{property.score}</strong>
+                <strong>{neighborhoodScore.score}</strong>
                 <span>/100</span>
               </div>
             </div>
@@ -220,6 +226,10 @@ export function PropertyDetailContent({
               <NeighborhoodDetailRow label="Accessibility" value={property.neighborhood.accessibility} />
               <NeighborhoodDetailRow label="Housing Value" value={property.neighborhood.housingValue} />
             </div>
+            <p className="detail-score-note">
+              Each category counts for 20% of this score. Strongest factors: {neighborhoodScore.strongestFactors.join(" and ")}. Areas to explore: {neighborhoodScore.lowerFactors.join(" and ")}.
+            </p>
+            <NeighborhoodContext context={neighborhoodContext} />
           </section>
 
           <section className="detail-panel">

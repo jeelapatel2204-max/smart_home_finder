@@ -9,7 +9,8 @@ export async function GET(request: Request) {
   try {
     const listings = await searchRentCastSaleListings({ city, state, zipCode });
     return Response.json({ source: listings ? "RentCast" : "sample", listings: listings ?? [] });
-  } catch {
-    return Response.json({ source: "unavailable", listings: [] }, { status: 503 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Live listings are temporarily unavailable.";
+    return Response.json({ source: "unavailable", listings: [], message }, { status: 503 });
   }
 }
