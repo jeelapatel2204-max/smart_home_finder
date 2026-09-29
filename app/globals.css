@@ -1651,6 +1651,59 @@ button {
 .seller-inquiry-form textarea { min-height: 100px; resize: vertical; }
 .seller-inquiry-form > button { background: var(--green); border: 0; border-radius: 6px; color: #fff; cursor: pointer; font: inherit; font-size: 13px; font-weight: 700; padding: 13px; }
 .seller-form-status { color: #327462; font-size: 12px; line-height: 1.5; margin: 0; }
+.seller-dashboard-section { background: #f5f8fb; border-top: 1px solid #e3ebf3; }
+.seller-dashboard-inner { margin: 0 auto; max-width: 1120px; padding: 64px 32px 76px; }
+.seller-dashboard-heading { align-items: end; display: flex; justify-content: space-between; }
+.seller-dashboard-heading h2 { color: #172033; font-family: Georgia, "Times New Roman", serif; font-size: 36px; font-weight: 400; margin: 9px 0 0; }
+.seller-dashboard-heading > span { color: #5f6f86; font-size: 12px; font-weight: 700; }
+.seller-dashboard-empty { background: #fff; border: 1px solid #e1eaf2; border-radius: 10px; color: #5f6f86; margin-top: 26px; padding: 28px; }
+.seller-dashboard-empty h3 { color: #172033; font-family: Georgia, "Times New Roman", serif; font-size: 23px; font-weight: 400; margin: 0 0 8px; }
+.seller-dashboard-empty p { font-size: 13px; line-height: 1.6; margin: 0; }
+.seller-request-grid { display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 26px; }
+.seller-request-card { background: #fff; border: 1px solid #e0e9f2; border-radius: 10px; padding: 21px; }
+.seller-request-card-top { align-items: center; display: flex; justify-content: space-between; gap: 12px; }
+.seller-path-badge, .seller-status { border-radius: 999px; font-size: 10px; font-weight: 750; padding: 6px 9px; }
+.seller-path-badge { background: #edf3f9; color: #314d72; }
+.seller-path-badge.fsbo { background: #edf7f3; color: #226350; }
+.seller-status { background: #fff5e6; color: #8a5b13; }
+.seller-status.contacted { background: #e9f1fb; color: #315f96; }
+.seller-status.closed { background: #eef1f4; color: #5f6f86; }
+.seller-request-card h3 { color: #172033; font-family: Georgia, "Times New Roman", serif; font-size: 23px; font-weight: 400; line-height: 1.25; margin: 17px 0 8px; }
+.seller-request-card > p { color: #5f6f86; font-size: 12px; line-height: 1.55; margin: 0; }
+.seller-request-card > p strong { color: #334867; }
+.seller-request-notes { border-left: 2px solid #d4e2ed; margin-top: 13px !important; padding-left: 10px; }
+.seller-request-card small { color: #788ca8; display: block; font-size: 10px; margin-top: 17px; }
+.seller-checklist { border-top: 1px solid #e8eef4; display: grid; gap: 6px; margin-top: 18px; padding-top: 15px; }
+.seller-checklist strong { color: #334867; font-size: 11px; }
+.seller-checklist span { color: #5f6f86; font-size: 11px; }
+.seller-checklist label { align-items: start; display: flex; gap: 7px; }
+.seller-checklist input { margin: 1px 0 0; }
+.seller-checklist-button, .fsbo-compact-form button { background: #edf3f9; border: 1px solid #d7e2ec; border-radius: 6px; color: #17395f; cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; padding: 9px 10px; }
+.fsbo-workspace { border-top: 1px solid #e8eef4; display: grid; gap: 18px; margin-top: 18px; padding-top: 18px; }
+.fsbo-section { display: grid; gap: 10px; }
+.fsbo-section h4 { color: #334867; font-size: 13px; margin: 0 0 4px; }
+.fsbo-section > div > p { color: #6a7b92; font-size: 11px; line-height: 1.5; margin: 0; }
+.fsbo-compact-form { display: grid; gap: 8px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.fsbo-compact-form label { color: #53637a; display: grid; font-size: 10px; font-weight: 700; gap: 4px; }
+.fsbo-compact-form input, .fsbo-compact-form textarea { border: 1px solid #d7e2ec; border-radius: 5px; font: inherit; font-size: 11px; padding: 7px; width: 100%; }
+.fsbo-compact-form textarea { min-height: 55px; resize: vertical; }
+.fsbo-compact-form .fsbo-full { grid-column: 1 / -1; }
+.fsbo-compact-form button { justify-self: start; }
+.fsbo-summary { color: #226350; font-size: 11px; font-weight: 700; margin: 0; }
+.fsbo-record-list { display: grid; gap: 7px; list-style: none; margin: 0; padding: 0; }
+.fsbo-record-list li { background: #f7fafc; border-radius: 5px; display: grid; gap: 2px; padding: 8px; }
+.fsbo-record-list strong { color: #334867; font-size: 11px; }
+.fsbo-record-list span { color: #5f6f86; font-size: 10px; line-height: 1.45; }
+.seller-management { margin: 0 auto; max-width: 1040px; padding: 64px 32px 80px; }
+.seller-management h1 { color: #172033; font-family: Georgia, "Times New Roman", serif; font-size: clamp(37px, 5vw, 52px); font-weight: 400; margin: 10px 0 12px; }
+.seller-management > p { color: #5f6f86; font-size: 14px; line-height: 1.6; }
+.seller-management-intro { margin-bottom: 30px; }
+.seller-admin-list { display: grid; gap: 14px; margin-top: 25px; }
+.seller-admin-list article { align-items: start; background: #fff; border: 1px solid #dfe8f1; border-radius: 10px; display: flex; gap: 25px; justify-content: space-between; padding: 21px; }
+.seller-admin-list h2 { color: #172033; font-family: Georgia, "Times New Roman", serif; font-size: 24px; font-weight: 400; margin: 13px 0 6px; }
+.seller-admin-list p { color: #5f6f86; font-size: 12px; line-height: 1.5; margin: 0; }
+.seller-admin-list label { color: #334867; display: grid; flex: 0 0 140px; font-size: 11px; font-weight: 700; gap: 6px; }
+.seller-admin-list select { border: 1px solid #d7e2ec; border-radius: 6px; background: #fff; color: #172033; font: inherit; font-size: 12px; padding: 9px; }
 
 @media (max-width: 1050px) {
   .listings-map-layout { grid-template-columns: 1fr; }
@@ -1677,6 +1730,14 @@ button {
   .seller-grid { gap: 30px; grid-template-columns: 1fr; margin-top: 28px; }
   .seller-path-picker { display: grid; width: 100%; }
   .seller-path-picker button { text-align: left; }
+  .seller-dashboard-inner { padding: 48px 20px 56px; }
+  .seller-dashboard-heading { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .seller-dashboard-heading h2 { font-size: 31px; }
+  .seller-request-grid { grid-template-columns: 1fr; }
+  .fsbo-compact-form { grid-template-columns: 1fr 1fr; }
+  .seller-management { padding: 45px 20px 56px; }
+  .seller-admin-list article { flex-direction: column; }
+  .seller-admin-list label { flex-basis: auto; width: 100%; }
 }
 
 .property-detail-page {
