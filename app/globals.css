@@ -2,14 +2,14 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #f5f8fc;
-  --foreground: #0b1f3a;
-  --muted: #536b87;
-  --line: #d8e4f1;
-  --green: #0b1f3a;
-  --green-dark: #163f70;
-  --mint: #edf4fc;
-  --coral: #b9cde3;
+  --background: #f7f1e7;
+  --foreground: #0b1930;
+  --muted: #6f6a62;
+  --line: #ded4c4;
+  --green: #0b1930;
+  --green-dark: #162946;
+  --mint: #f1e7d5;
+  --coral: #c7a467;
 }
 
 @theme inline {
@@ -26,7 +26,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-manrope), sans-serif;
   margin: 0;
 }
 
@@ -3455,6 +3455,29 @@ button {
   color: #163a5f;
   font-weight: 700;
 }
+
+/* Luxury editorial visual system */
+.site-header, .detail-header { background: rgba(247, 241, 231, .94); border-color: #e3d8c7; }
+.brand { color: #0b1930; font-family: var(--font-manrope), sans-serif; letter-spacing: .02em; }
+.brand-mark { background: #0b1930; border-radius: 2px; }
+.nav-link { color: #6f6a62; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.nav-link:hover, .nav-link.active { color: #0b1930; }
+.hero-section { background: linear-gradient(110deg, #f7f1e7 20%, rgba(247,241,231,.78) 55%, rgba(247,241,231,.25)), url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=90") center/cover; }
+.hero-section::after { border-color: rgba(199,164,103,.38); }
+.hero-inner { padding-bottom: 64px; padding-top: 112px; }
+.hero-copy h1, .section-heading h2, .neighborhood-copy h2, .detail-panel h2, .property-detail-about h2, .dossier-heading h2 { font-family: var(--font-cormorant), Georgia, serif; }
+.hero-copy h1 { color: #0b1930; font-size: clamp(58px, 7vw, 94px); letter-spacing: -.04em; line-height: .9; max-width: 640px; }
+.hero-description { color: #3c4655; font-size: 14px; max-width: 430px; }
+.eyebrow { color: #92713f; }
+.eyebrow > span { background: #c7a467; }
+.search-form { background: rgba(255,252,246,.96); border-color: #d9c9b2; border-radius: 2px; box-shadow: 0 18px 45px rgba(11,25,48,.14); max-width: 920px; }
+.property-card { background: #fffdf8; border-color: #e8dfd1; border-radius: 1px; }
+.property-card:hover { box-shadow: 0 20px 42px rgba(11,25,48,.14); }
+.property-photo { height: 285px; }
+.photo-label { background: #f7f1e7; border-radius: 0; color: #0b1930; letter-spacing: .06em; text-transform: uppercase; }
+.section-heading h2 { color: #0b1930; font-size: 44px; }
+.detail-panel, .property-detail-summary { background: #fffdf8; border-color: #e8dfd1; border-radius: 2px; }
+.decision-dossier { background: linear-gradient(135deg, #08172c, #142d4c); border-radius: 2px; }
 
 /* Navy-blue application theme */
 .site-header,

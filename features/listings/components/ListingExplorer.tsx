@@ -578,7 +578,7 @@ export function ListingExplorer() {
           <div className="hero-inner">
             <div className="hero-copy">
               <p className="eyebrow"><span /> A more thoughtful way home</p>
-              <h1>Find a home in a neighborhood you&apos;ll love.</h1>
+              <h1>Homes Worth Living In</h1>
               <p className="hero-description">
                 Find the right place to call home, with the neighborhood details
                 that help you feel good about where you land.
