@@ -20,6 +20,7 @@ import { DailyLife } from "@/features/daily-life/components/DailyLife";
 import { getAssignedAgent } from "@/features/agents/lib/assigned-agent";
 import type { NeighborhoodContext as NeighborhoodContextData } from "@/features/neighborhoods/lib/context";
 import { calculateMortgagePayment } from "@/features/financials/lib/mortgage";
+import { SmartHomeAdvisor } from "@/features/home-advisor/components/SmartHomeAdvisor";
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("en-US", {
@@ -455,6 +456,14 @@ export function PropertyDetailContent({
           </section>
           )}
 
+          <SmartHomeAdvisor
+            property={property}
+            isRental={isRental}
+            monthlyCost={isRental ? rentalAllInCost : trueMonthlyCost.total}
+            monthlyLimit={monthlyLimit}
+            neighborhoodScore={neighborhoodScore.score}
+          />
+
           {!isRental && <section className="detail-panel match-detail-panel horizontal-match-panel">
             <div className="match-detail-heading">
               <div>
@@ -501,6 +510,7 @@ export function PropertyDetailContent({
             <h2>Tour this home</h2>
             <div className="tour-summary-agent"><span>{assignedAgent.initials}</span><div><strong>{assignedAgent.name}</strong><small>{assignedAgent.title}</small></div></div>
             <p>Choose a date and time, then send a question directly to the assigned property advisor.</p>
+            <small className="tour-response-note">Agent replies can take up to 2–3 business days.</small>
             <button type="button" className="tour-summary-button" onClick={() => { setTourRequested(false); setShowTourForm(true); }}>Request a tour</button>
           </section>}
 
@@ -670,6 +680,7 @@ export function PropertyDetailContent({
                   <p className="dossier-eyebrow">Request a tour</p>
                   <h2 id="tour-request-title">See {property.address} in person</h2>
                   <p>Tell the property advisor when you would like to visit. There is no commitment to move forward.</p>
+                  <p className="tour-response-note">Agent replies can take up to 2–3 business days.</p>
                   <div className="assigned-agent-card"><span>{assignedAgent.initials}</span><div><strong>{assignedAgent.name}</strong><small>{assignedAgent.title} · {assignedAgent.phone}</small></div></div>
                   <div className="tour-form-grid">
                     <label>Preferred date<input name="tour-date" type="date" required min={new Date().toISOString().slice(0, 10)} /></label>
