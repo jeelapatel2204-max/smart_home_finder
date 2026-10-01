@@ -4,9 +4,9 @@ import {
   type BudgetProfile,
 } from "./preference-profile";
 
-const storageKey = "smart-home-finder:budget-profile:v1";
+const defaultStorageKey = "smart-home-finder:budget-profile:v1";
 
-export function loadBudgetProfile() {
+export function loadBudgetProfile(storageKey = defaultStorageKey) {
   try {
     const storedProfile = window.localStorage.getItem(storageKey);
     if (!storedProfile) {
@@ -20,7 +20,7 @@ export function loadBudgetProfile() {
   }
 }
 
-export function saveBudgetProfile(profile: BudgetProfile) {
+export function saveBudgetProfile(profile: BudgetProfile, storageKey = defaultStorageKey) {
   try {
     window.localStorage.setItem(storageKey, JSON.stringify(profile));
   } catch {

@@ -158,6 +158,7 @@ function PropertyCard({
   canCompare: boolean;
   onToggleCompare: (id: number) => void;
 }) {
+  const isRental = property.listingIntent === "rent";
   const neighborhoodScore = calculateNeighborhoodScore(property.neighborhood);
   const trueMonthlyCost = calculateTrueMonthlyCost(
     {
@@ -205,7 +206,7 @@ function PropertyCard({
         </button>
       </div>
       <div className="property-details">
-        <p className="property-price">{formatPrice(property.price)}</p>
+        <p className="property-price">{isRental ? `${formatPrice(property.monthlyRentPrice ?? property.price)}/mo` : formatPrice(property.price)}</p>
         <p className="property-address">{property.address}</p>
         <p className="property-location">
           {property.city}, {property.state} {property.zip}
@@ -216,33 +217,35 @@ function PropertyCard({
           <span><strong>{property.squareFeet.toLocaleString()}</strong> sqft</span>
         </div>
         <div className="property-monthly-cost">
-          <span>Estimated monthly cost</span>
+          <span>{isRental ? "Monthly rent" : "Estimated monthly cost"}</span>
           <strong>
-            {trueMonthlyCost.total === null
+            {isRental
+              ? `${formatPrice(property.monthlyRentPrice ?? property.price)}/mo`
+              : trueMonthlyCost.total === null
               ? "Unavailable"
               : `${formatPrice(trueMonthlyCost.total)}/mo`}
           </strong>
         </div>
-        {match.evaluatedRuleCount > 0 && (
+        {!isRental && match.evaluatedRuleCount > 0 && (
           <div className={`property-match${match.eligible ? "" : " is-ineligible"}`}>
             <span>{match.eligible ? "Home match" : "Near match"}</span>
             <strong>{match.score}%</strong>
           </div>
         )}
-        <button
+        {!isRental && <button
           className="compare-property-button"
           type="button"
           disabled={!isCompared && !canCompare}
           onClick={(event) => { event.stopPropagation(); onToggleCompare(property.id); }}
         >
           {isCompared ? "Remove from compare" : "Compare home"}
-        </button>
-        <span className="property-investment-label">
+        </button>}
+        {!isRental && <span className="property-investment-label">
           <svg viewBox="0 0 16 16" aria-hidden="true">
             <path d="M2 12.5h12M3.5 10V7.5M8 10V3.5M12.5 10V5" />
           </svg>
           Investment Analysis
-        </span>
+        </span>}
         <button
           className="score-row score-row-button"
           type="button"
@@ -309,12 +312,32 @@ export function ListingExplorer() {
   const [budgetProfile, setBudgetProfile] = useState<BudgetProfile>(createDefaultBudgetProfile);
   const [comparisonIds, setComparisonIds] = useState<number[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [listingIntent, setListingIntent] = useState<"sale" | "rent">("sale");
+  const [rentalPetFriendly, setRentalPetFriendly] = useState(false);
+  const [rentalParking, setRentalParking] = useState(false);
+  const [rentalLaundry, setRentalLaundry] = useState(false);
+  const [rentalMinBeds, setRentalMinBeds] = useState(0);
+  const [rentalMinBaths, setRentalMinBaths] = useState(0);
+  const [rentalMinRent, setRentalMinRent] = useState("");
+  const [rentalMaxRent, setRentalMaxRent] = useState("");
   const [matchFilterApplied, setMatchFilterApplied] = useState(false);
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
   const [locationSuggestions, setLocationSuggestions] = useState<LocationSuggestion[]>([]);
   const [accountUserId, setAccountUserId] = useState<string | null>(null);
   const [accountDataLoaded, setAccountDataLoaded] = useState(false);
   const [profileOverride, setProfileOverride] = useState<BudgetProfile | null>(null);
+
+  useEffect(() => {
+    function openFiltersFromHash() {
+      if (window.location.hash === "#filters") {
+        setShowFilters(true);
+      }
+    }
+
+    openFiltersFromHash();
+    window.addEventListener("hashchange", openFiltersFromHash);
+    return () => window.removeEventListener("hashchange", openFiltersFromHash);
+  }, []);
 
   useEffect(() => {
     if (!activeNeighborhoodProperty) {
@@ -403,19 +426,31 @@ export function ListingExplorer() {
   const matches = Object.fromEntries(properties.map((property) => [property.id, evaluateProperty(property, budgetProfile)])) as Record<number, MatchResult>;
 
   const filteredProperties = properties.filter((property) => {
+    const matchesListingIntent = (property.listingIntent ?? "sale") === listingIntent;
+    const matchesRentalFeatures = listingIntent !== "rent" || (
+      (!rentalPetFriendly || property.petFriendly)
+      && (!rentalParking || property.parkingIncluded)
+      && (!rentalLaundry || property.inUnitLaundry)
+      && property.beds >= rentalMinBeds
+      && property.baths >= rentalMinBaths
+    );
     const query = normalizeSearchText(appliedLocation);
     const matchesLocation =
       !query ||
       normalizeSearchText(`${property.address} ${property.city} ${property.state} ${usStateNames[property.state]} ${property.zip}`)
         .includes(query);
-    const matchesPrice =
-      appliedMaxPrice === null || property.price <= appliedMaxPrice;
+    const minRent = Number(rentalMinRent);
+    const maxRent = Number(rentalMaxRent);
+    const matchesPrice = listingIntent === "rent"
+      ? (!rentalMinRent || property.price >= minRent) && (!rentalMaxRent || property.price <= maxRent)
+      : appliedMaxPrice === null || property.price <= appliedMaxPrice;
     const matchesFavorites =
       !showFavoritesOnly || favorites.includes(property.id);
-    const matchesBudget =
-      !matchFilterApplied || shouldShowForMatchFilter(matches[property.id]);
+    const matchesBudget = property.listingIntent === "rent"
+      || !matchFilterApplied
+      || shouldShowForMatchFilter(matches[property.id]);
 
-    return matchesLocation && matchesPrice && matchesFavorites && matchesBudget;
+    return matchesListingIntent && matchesRentalFeatures && matchesLocation && matchesPrice && matchesFavorites && matchesBudget;
   });
   const displayedProperties = [...filteredProperties].sort((first, second) => {
     if (sortOrder === "price-low") return first.price - second.price;
@@ -522,9 +557,9 @@ export function ListingExplorer() {
             <span>Smart Home Finder</span>
           </a>
           <nav className="main-nav" aria-label="Main navigation">
-            <a className="nav-link active" href="#homes" onClick={showAllHomes}>Buy</a>
+            <a className={`nav-link${listingIntent === "sale" ? " active" : ""}`} href="#homes" onClick={() => { setListingIntent("sale"); showAllHomes(); }}>Buy</a>
             <a className="nav-link" href="/sell">Sell</a>
-            <a className="nav-link" href="#homes" onClick={showAllHomes}>Rent</a>
+            <a className={`nav-link${listingIntent === "rent" ? " active" : ""}`} href="#homes" onClick={() => { setListingIntent("rent"); showAllHomes(); }}>Rent</a>
             <a className="nav-link" href="#neighborhood-score">Neighborhoods</a>
             <a
               className={`nav-link favorites-link${showFavoritesOnly ? " active" : ""}`}
@@ -550,6 +585,10 @@ export function ListingExplorer() {
               </p>
             </div>
             <form className="search-form" onSubmit={handleSearch}>
+              <div className="listing-intent-toggle" aria-label="Listing type">
+                <button type="button" className={listingIntent === "sale" ? "is-selected" : ""} onClick={() => setListingIntent("sale")}>For sale</button>
+                <button type="button" className={listingIntent === "rent" ? "is-selected" : ""} onClick={() => setListingIntent("rent")}>For rent</button>
+              </div>
               <label className="search-field location-field">
                 <span>City, state, or ZIP code</span>
                 <span className="input-with-icon">
@@ -597,18 +636,25 @@ export function ListingExplorer() {
                 )}
               </label>
               <label className="search-field price-field">
-                <span>Maximum price</span>
+                <span>{listingIntent === "rent" ? "Maximum monthly rent" : "Maximum price"}</span>
                 <span className="price-input-wrap">
                   <span aria-hidden="true">$</span>
                   <input
                     type="number"
                     min="1"
-                    placeholder="Any price"
-                    value={maxPriceInput}
-                    onChange={(event) => setMaxPriceInput(event.target.value)}
+                    placeholder={listingIntent === "rent" ? "Any monthly rent" : "Any price"}
+                    value={listingIntent === "rent" ? rentalMaxRent : maxPriceInput}
+                    onChange={(event) => listingIntent === "rent" ? setRentalMaxRent(event.target.value) : setMaxPriceInput(event.target.value)}
                   />
                 </span>
               </label>
+              {listingIntent === "rent" && (
+                <div className="rental-filter-chips" aria-label="Rental amenities">
+                  <button type="button" className={rentalPetFriendly ? "is-selected" : ""} onClick={() => setRentalPetFriendly((value) => !value)}>Pet friendly</button>
+                  <button type="button" className={rentalParking ? "is-selected" : ""} onClick={() => setRentalParking((value) => !value)}>Parking</button>
+                  <button type="button" className={rentalLaundry ? "is-selected" : ""} onClick={() => setRentalLaundry((value) => !value)}>In-unit laundry</button>
+                </div>
+              )}
               <button className="search-button" type="submit">
                 <SearchIcon />
                 <span>Search homes</span>
@@ -634,11 +680,11 @@ export function ListingExplorer() {
           <div className="section-heading">
             <div>
               <p className="eyebrow section-eyebrow">A good place to begin</p>
-              <h2>{showFavoritesOnly ? "Your saved homes" : "Homes worth a closer look"}</h2>
+                  <h2>{showFavoritesOnly ? "Your saved homes" : listingIntent === "rent" ? "Rentals worth a closer look" : "Homes worth a closer look"}</h2>
               <p className="section-description">
                 {showFavoritesOnly
                   ? "The homes you have saved for later."
-                  : "Thoughtfully picked homes, with the neighborhood context to match."}
+                  : listingIntent === "rent" ? "Rental homes selected for everyday fit and neighborhood context." : "Thoughtfully picked homes, with the neighborhood context to match."}
               </p>
             </div>
             <div className="listing-controls">
@@ -669,7 +715,7 @@ export function ListingExplorer() {
               </label>
               <div className="listing-count" aria-live="polite">
                 <span>{displayedProperties.length.toString().padStart(2, "0")}</span>
-                {showFavoritesOnly ? " saved homes" : " homes"}
+                {showFavoritesOnly ? " saved homes" : listingIntent === "rent" ? " rentals" : " homes"}
               </div>
             </div>
           </div>
@@ -763,7 +809,18 @@ export function ListingExplorer() {
             >
               ×
             </button>
-          <BudgetRulesPanel
+          {listingIntent === "rent" ? <section className="rental-filters-panel" aria-labelledby="rental-filters-title">
+            <div className="budget-rules-heading"><div><p className="eyebrow section-eyebrow">Rental preferences</p><h2 id="rental-filters-title">Find the right rental</h2><p>Rental-only filters never affect homes for sale.</p></div></div>
+            <div className="rental-filter-field-grid">
+              <label>Minimum monthly rent<input type="number" min="0" placeholder="Any" value={rentalMinRent} onChange={(event) => setRentalMinRent(event.target.value)} /></label>
+              <label>Maximum monthly rent<input type="number" min="0" placeholder="Any" value={rentalMaxRent} onChange={(event) => setRentalMaxRent(event.target.value)} /></label>
+              <label>Minimum bedrooms<select value={rentalMinBeds} onChange={(event) => setRentalMinBeds(Number(event.target.value))}><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
+              <label>Minimum bathrooms<select value={rentalMinBaths} onChange={(event) => setRentalMinBaths(Number(event.target.value))}><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></label>
+            </div>
+            <div className="rental-modal-amenities"><button type="button" className={rentalPetFriendly ? "is-selected" : ""} onClick={() => setRentalPetFriendly((value) => !value)}>Pet friendly</button><button type="button" className={rentalParking ? "is-selected" : ""} onClick={() => setRentalParking((value) => !value)}>Parking included</button><button type="button" className={rentalLaundry ? "is-selected" : ""} onClick={() => setRentalLaundry((value) => !value)}>In-unit laundry</button></div>
+            <div className="budget-rules-footer"><button type="button" onClick={() => { setRentalMinBeds(0); setRentalMinBaths(0); setRentalMinRent(""); setRentalMaxRent(""); setRentalPetFriendly(false); setRentalParking(false); setRentalLaundry(false); }}>Reset rental filters</button></div>
+            <button type="button" className="budget-rules-search-button" onClick={() => setShowFilters(false)}>Show matching rentals</button>
+          </section> : <><BudgetRulesPanel
             onProfileChange={setBudgetProfile}
             profileOverride={profileOverride}
             onSearch={(profile) => {
@@ -793,7 +850,7 @@ export function ListingExplorer() {
               setShowFavoritesOnly(false);
               setShowFilters(false);
             }}
-          />
+          /></>}
           </div>
         </div>
       )}

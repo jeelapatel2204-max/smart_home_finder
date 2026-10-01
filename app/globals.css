@@ -316,6 +316,41 @@ button {
   padding: 8px;
 }
 
+.listing-intent-toggle {
+  display: inline-flex;
+  gap: 4px;
+  grid-column: 1 / -1;
+  padding: 2px 4px 4px;
+}
+
+.listing-intent-toggle button {
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  color: #536b87;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 12px;
+}
+
+.listing-intent-toggle button.is-selected {
+  background: #0b1f3a;
+  color: #fff;
+}
+
+.rental-filter-chips { align-items: center; display: flex; flex-wrap: wrap; gap: 6px; grid-column: 1 / -1; padding: 0 8px 5px; }
+.rental-filter-chips button { background: #f1f6fc; border: 1px solid #d1dfec; border-radius: 999px; color: #365c82; cursor: pointer; font: inherit; font-size: 10px; font-weight: 700; padding: 7px 10px; }
+.rental-filter-chips button.is-selected { background: #0b1f3a; border-color: #0b1f3a; color: #fff; }
+.rental-filters-panel { display: grid; gap: 18px; padding: 32px; }
+.rental-filter-field-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+.rental-filter-field-grid label { color: #294967; display: grid; font-size: 11px; font-weight: 700; gap: 6px; }
+.rental-filter-field-grid select, .rental-filter-field-grid input { border: 1px solid #cfddea; border-radius: 5px; font: inherit; font-size: 12px; padding: 10px; }
+.rental-modal-amenities { display: flex; flex-wrap: wrap; gap: 8px; }
+.rental-modal-amenities button { background: #f1f6fc; border: 1px solid #d1dfec; border-radius: 999px; color: #365c82; cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; padding: 9px 11px; }
+.rental-modal-amenities button.is-selected { background: #0b1f3a; border-color: #0b1f3a; color: #fff; }
+
 .search-field {
   display: flex;
   flex-direction: column;
@@ -1858,7 +1893,13 @@ button {
   margin: 0;
 }
 
+.property-detail-actions { display: flex; gap: 8px; margin-top: 20px; }
+.property-save-button, .property-share-button { border-radius: 6px; cursor: pointer; font: inherit; font-size: 11px; font-weight: 750; padding: 9px 12px; }
+.property-save-button { background: #0b1f3a; border: 1px solid #0b1f3a; color: #fff; }
+.property-share-button { background: #edf5ff; border: 1px solid #c7dcef; color: #1e5a92; }
+
 .detail-content-grid {
+  align-items: stretch;
   display: grid;
   gap: 22px;
   grid-template-columns: 1fr 1fr;
@@ -1994,6 +2035,11 @@ button {
 }
 
 .dossier-grid small, .stress-list small { color: #d8e6f4; font-size: 10px; line-height: 1.4; }
+.sale-tour-prompt { align-items: center; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.16); border-radius: 9px; display: flex; justify-content: space-between; margin-top: 15px; padding: 12px 14px; }
+.sale-tour-prompt div { display: grid; gap: 3px; }
+.sale-tour-prompt span { color: #c4d9ef; font-size: 10px; font-weight: 700; }
+.sale-tour-prompt strong { color: #fff; font-size: 12px; }
+.sale-tour-prompt button { background: #dbeeff; border: 0; border-radius: 5px; color: #123b66; cursor: pointer; font: inherit; font-size: 10px; font-weight: 800; padding: 9px 10px; white-space: nowrap; }
 .dossier-controls { border-top: 1px solid rgba(255,255,255,.18); display: flex; flex-wrap: wrap; gap: 22px; margin-top: 20px; padding-top: 17px; }
 .dossier-control { align-items: center; display: flex; gap: 12px; }
 .dossier-control > span { color: #c4d9ef; font-size: 10px; font-weight: 700; }
@@ -2047,11 +2093,171 @@ button {
   margin: 0;
 }
 
+.daily-life-panel { min-width: 0; }
+.daily-life-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: -5px 0 17px; }
+.daily-life-tags span { background: #edf5ff; border-radius: 999px; color: #1e5a92; font-size: 9px; font-weight: 750; padding: 6px 8px; }
+.daily-life-essentials { display: grid; gap: 8px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.daily-life-essentials div { border: 1px solid #e1eaf4; border-radius: 7px; display: grid; gap: 4px; padding: 9px; }
+.daily-life-essentials span, .daily-life-commute label > span { color: #58718d; font-size: 9px; font-weight: 700; }
+.daily-life-essentials strong { color: #17395e; font-size: 10px; }
+.daily-life-commute { border-top: 1px solid #e6edf5; display: grid; gap: 10px; margin-top: 16px; padding-top: 15px; }
+.daily-life-commute label { display: grid; gap: 5px; position: relative; }
+.daily-life-commute input, .daily-life-commute select { background: #fbfdff; border: 1px solid #cfddea; border-radius: 5px; color: #0b1f3a; font: inherit; font-size: 11px; min-width: 0; padding: 8px; width: 100%; }
+.daily-life-inputs { display: grid; gap: 9px; grid-template-columns: 1fr 1fr; }
+.daily-life-inputs em { bottom: 8px; color: #71869e; font-size: 9px; font-style: normal; position: absolute; right: 8px; }
+.daily-life-inputs input { padding-right: 25px; }
+.daily-life-result { background: #f0f6fc; border-radius: 7px; display: grid; gap: 2px; padding: 10px; }
+.daily-life-result span, .daily-life-result small { color: #58718d; font-size: 9px; }
+.daily-life-result strong { color: #0b1f3a; font-size: 15px; }
+.daily-life-note { color: #6d839b !important; font-size: 9px !important; line-height: 1.5 !important; margin-top: 13px !important; }
+
 .match-detail-heading {
   align-items: flex-start;
   display: flex;
   gap: 16px;
   justify-content: space-between;
+}
+
+.horizontal-match-panel {
+  grid-column: 1 / -1;
+  order: 1;
+}
+
+.tour-summary-panel, .daily-life-panel { order: 2; }
+.tour-summary-panel { grid-column: 1; }
+.daily-life-panel { grid-column: 2; }
+.monthly-cost-panel, .neighborhood-detail-panel { order: 3; }
+.monthly-cost-panel { grid-column: 1; grid-row: 4; }
+.neighborhood-detail-panel { grid-column: 2; grid-row: 4; }
+.monthly-cost-panel, .neighborhood-detail-panel { min-width: 0; width: 100%; }
+.monthly-cost-panel, .tour-summary-panel, .neighborhood-detail-panel, .daily-life-panel { height: 100%; }
+
+.tour-summary-panel { display: flex; flex-direction: column; }
+.tour-summary-agent { align-items: center; display: flex; gap: 9px; margin: 2px 0 13px; }
+.tour-summary-agent > span { align-items: center; background: #0b1f3a; border-radius: 50%; color: #fff; display: inline-flex; font-size: 10px; font-weight: 800; height: 31px; justify-content: center; width: 31px; }
+.tour-summary-agent div { display: grid; gap: 2px; }
+.tour-summary-agent strong { color: #17395e; font-size: 12px; }
+.tour-summary-agent small { color: #58718d; font-size: 10px; }
+.tour-summary-button { align-self: start; background: #0b1f3a; border: 0; border-radius: 6px; color: #fff; cursor: pointer; font: inherit; font-size: 11px; font-weight: 750; margin-top: auto; padding: 10px 12px; }
+
+.match-detail-actions {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  gap: 14px;
+}
+
+.detail-filters-button {
+  background: #edf5ff;
+  border: 1px solid #c7dcef;
+  border-radius: 6px;
+  color: #1e5a92;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  padding: 8px 12px;
+}
+
+.detail-filters-button:hover { background: #dcecfb; }
+
+.property-filter-modal-heading {
+  border-bottom: 1px solid #e5edf5;
+  padding: 30px 70px 20px 32px;
+}
+
+.property-filter-modal-heading p {
+  color: #1e5a92;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .09em;
+  margin: 0 0 7px;
+  text-transform: uppercase;
+}
+
+.property-filter-modal-heading h2 {
+  color: #0b1f3a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.rental-tour-button {
+  align-self: start;
+  background: #dbeeff;
+  border: 0;
+  border-radius: 5px;
+  color: #123b66;
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  margin-top: 5px;
+  padding: 8px 10px;
+}
+
+.rental-affordability-box {
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 10px;
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 1fr auto;
+  margin-top: 15px;
+  padding: 18px;
+}
+
+.rental-affordability-box h3 { font-family: Georgia, "Times New Roman", serif; font-size: 20px; font-weight: 400; margin: 0; }
+.rental-all-in-cost { align-self: center; font-size: 25px; letter-spacing: -.03em; text-align: right; }
+.rental-all-in-cost small { color: #c4d9ef; font-size: 11px; font-weight: 600; margin-left: 4px; }
+.rental-cost-controls { display: grid; gap: 10px; grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rental-cost-controls > div { align-items: center; border-top: 1px solid rgba(255,255,255,.14); display: flex; justify-content: space-between; padding-top: 10px; }
+.rental-cost-controls span { color: #c4d9ef; font-size: 10px; font-weight: 700; }
+.rental-cost-controls > div > div { align-items: center; display: flex; gap: 6px; }
+.rental-cost-controls button { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 5px; color: #fff; cursor: pointer; font: inherit; font-size: 14px; height: 25px; width: 25px; }
+.rental-cost-controls strong { font-size: 11px; min-width: 38px; text-align: center; }
+.rental-affordability-box > p { color: #d8e6f4; font-size: 10px; grid-column: 1 / -1; line-height: 1.5; margin: 0; }
+
+.tour-modal {
+  background: #fff;
+  border: 1px solid #d8e4f1;
+  border-radius: 12px;
+  box-shadow: 0 24px 55px rgba(10, 24, 45, .18);
+  margin: auto;
+  max-width: 600px;
+  padding: 32px;
+  position: relative;
+  width: 100%;
+}
+
+.tour-form { display: grid; gap: 15px; }
+.assigned-agent-card { align-items: center; background: #edf5ff; border: 1px solid #d3e2f1; border-radius: 8px; display: flex; gap: 10px; padding: 10px; }
+.assigned-agent-card > span { align-items: center; background: #0b1f3a; border-radius: 50%; color: #fff; display: inline-flex; font-size: 11px; font-weight: 800; height: 32px; justify-content: center; width: 32px; }
+.assigned-agent-card div { display: grid; gap: 2px; }
+.assigned-agent-card strong { color: #17395e; font-size: 12px; }
+.assigned-agent-card small { color: #58718d; font-size: 10px; }
+.tour-form h2, .tour-confirmation h2 { color: #0b1f3a; font-family: Georgia, "Times New Roman", serif; font-size: 29px; font-weight: 400; margin: 0; }
+.tour-form > p:not(.dossier-eyebrow), .tour-confirmation > p:not(.dossier-eyebrow) { color: #536b87; font-size: 12px; line-height: 1.6; margin: -5px 0 0; }
+.tour-form-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+.tour-form label, .tour-message-label { color: #294967; display: grid; font-size: 11px; font-weight: 700; gap: 6px; }
+.tour-form input, .tour-form select, .tour-form textarea { background: #fbfdff; border: 1px solid #cfddea; border-radius: 5px; color: #0b1f3a; font: inherit; font-size: 12px; padding: 10px; width: 100%; }
+.tour-form textarea { min-height: 86px; resize: vertical; }
+.tour-submit-button { background: #0b1f3a; border: 0; border-radius: 6px; color: #fff; cursor: pointer; font: inherit; font-size: 12px; font-weight: 750; padding: 12px; }
+.tour-confirmation { display: grid; gap: 15px; padding: 8px; }
+
+@media (max-width: 680px) {
+  .tour-modal { border-radius: 10px; padding: 28px 20px; }
+  .tour-form-grid { grid-template-columns: 1fr; }
+  .rental-affordability-box { grid-template-columns: 1fr; }
+  .rental-all-in-cost { text-align: left; }
+  .rental-cost-controls { grid-template-columns: 1fr; }
+}
+
+.match-detail-groups {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .match-detail-heading strong {
@@ -2068,6 +2274,10 @@ button {
   border-top: 1px solid #edf3f9;
   margin-top: 15px;
   padding-top: 13px;
+}
+
+.match-detail-groups .match-detail-group {
+  margin-top: 17px;
 }
 
 .match-detail-group h3 {
@@ -3118,6 +3328,10 @@ button {
   .dossier-heading { flex-direction: column; gap: 12px; }
   .dossier-grid, .dossier-action-grid { grid-template-columns: 1fr; }
   .dossier-controls { align-items: flex-start; flex-direction: column; gap: 13px; }
+  .sale-tour-prompt { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .match-detail-groups { grid-template-columns: 1fr; }
+  .monthly-cost-panel, .tour-summary-panel, .neighborhood-detail-panel, .daily-life-panel { grid-column: auto; grid-row: auto; }
+  .daily-life-essentials { grid-template-columns: 1fr; }
 
   .investment-analysis {
     padding: 20px;

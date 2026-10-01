@@ -10,6 +10,11 @@ export type NeighborhoodMetrics = {
 
 export type Property = {
   id: number;
+  listingIntent?: "sale" | "rent";
+  monthlyRentPrice?: number;
+  petFriendly?: boolean;
+  parkingIncluded?: boolean;
+  inUnitLaundry?: boolean;
   price: number;
   address: string;
   city: string;
@@ -34,6 +39,29 @@ export type Property = {
   defaultDownPaymentPercent: number;
   defaultInterestRate: number;
 };
+
+const rentalListingDefaults = {
+  listingIntent: "rent" as const,
+  financials: { annualPropertyTax: 0, monthlyInsurance: 0, monthlyHoa: 0, estimatedMonthlyMaintenance: 0 },
+  defaultVacancyRate: 0,
+  defaultMaintenanceRate: 0,
+  defaultAnnualAppreciationRate: 0,
+  defaultDownPaymentPercent: 0,
+  defaultInterestRate: 0,
+};
+
+const additionalRentalListings: Property[] = [
+  { id: 25, monthlyRentPrice: 2100, price: 2100, address: "915 East Pike Street", city: "Seattle", state: "WA", zip: "98122", beds: 1, baths: 1, squareFeet: 720, propertyType: "Loft apartment", latitude: 47.614, longitude: -122.319, neighborhood: { schools: 85, safety: 84, amenities: 96, accessibility: 95, housingValue: 86 }, image: "https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=1000&q=85", imageAlt: "Sunny loft apartment with modern furnishings", label: "Available now", description: "A bright loft with tall ceilings and an easy walk to transit, groceries, and neighborhood restaurants.", estimatedMonthlyRent: 2100, petFriendly: true, parkingIncluded: false, inUnitLaundry: true },
+  { id: 26, monthlyRentPrice: 2650, price: 2650, address: "1580 Mission Street", city: "San Francisco", state: "CA", zip: "94103", beds: 1, baths: 1, squareFeet: 690, propertyType: "City apartment", latitude: 37.774, longitude: -122.419, neighborhood: { schools: 83, safety: 80, amenities: 97, accessibility: 98, housingValue: 84 }, image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1000&q=85", imageAlt: "Modern city apartment with a bright living room", label: "Virtual tour", description: "A streamlined apartment close to BART, everyday errands, and the energy of downtown San Francisco.", estimatedMonthlyRent: 2650, petFriendly: true, parkingIncluded: false, inUnitLaundry: true },
+  { id: 27, monthlyRentPrice: 1950, price: 1950, address: "2400 North Clark Street", city: "Chicago", state: "IL", zip: "60614", beds: 1, baths: 1, squareFeet: 760, propertyType: "Courtyard apartment", latitude: 41.925, longitude: -87.64, neighborhood: { schools: 87, safety: 86, amenities: 94, accessibility: 93, housingValue: 88 }, image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=85", imageAlt: "Warm apartment with large windows and natural light", label: "Pet friendly", description: "A classic Chicago apartment near the lakefront, parks, coffee shops, and frequent transit.", estimatedMonthlyRent: 1950, petFriendly: true, parkingIncluded: false, inUnitLaundry: false },
+  { id: 28, monthlyRentPrice: 3200, price: 3200, address: "327 East 12th Street", city: "New York", state: "NY", zip: "10003", beds: 1, baths: 1, squareFeet: 610, propertyType: "Studio loft", latitude: 40.731, longitude: -73.988, neighborhood: { schools: 88, safety: 85, amenities: 98, accessibility: 99, housingValue: 82 }, image: "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?auto=format&fit=crop&w=1000&q=85", imageAlt: "Compact designer loft with large windows", label: "New listing", description: "A polished studio loft with flexible space, high ceilings, and a central East Village address.", estimatedMonthlyRent: 3200, petFriendly: false, parkingIncluded: false, inUnitLaundry: true },
+  { id: 29, monthlyRentPrice: 2350, price: 2350, address: "4100 Westheimer Road", city: "Houston", state: "TX", zip: "77027", beds: 2, baths: 2, squareFeet: 1140, propertyType: "Garden apartment", latitude: 29.739, longitude: -95.454, neighborhood: { schools: 80, safety: 84, amenities: 91, accessibility: 80, housingValue: 87 }, image: "https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=1000&q=85", imageAlt: "Spacious apartment with a calm modern kitchen", label: "Parking included", description: "A generous two-bedroom rental with covered parking, a pool, and room for a home office.", estimatedMonthlyRent: 2350, petFriendly: true, parkingIncluded: true, inUnitLaundry: true },
+  { id: 30, monthlyRentPrice: 2850, price: 2850, address: "1830 16th Street Northwest", city: "Washington", state: "DC", zip: "20009", beds: 2, baths: 1, squareFeet: 890, propertyType: "Rowhouse apartment", latitude: 38.914, longitude: -77.036, neighborhood: { schools: 89, safety: 86, amenities: 96, accessibility: 97, housingValue: 88 }, image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85", imageAlt: "Light filled apartment in a brick row house", label: "Tour this week", description: "A character-rich apartment near Metro, local parks, and the best of Adams Morgan.", estimatedMonthlyRent: 2850, petFriendly: true, parkingIncluded: false, inUnitLaundry: true },
+  { id: 31, monthlyRentPrice: 1750, price: 1750, address: "2114 East 7th Street", city: "Charlotte", state: "NC", zip: "28204", beds: 1, baths: 1, squareFeet: 780, propertyType: "New-build apartment", latitude: 35.213, longitude: -80.819, neighborhood: { schools: 82, safety: 85, amenities: 90, accessibility: 84, housingValue: 89 }, image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85", imageAlt: "Contemporary apartment building and sunny patio", label: "Move-in special", description: "A fresh one-bedroom with a balcony, fitness room access, and convenient neighborhood amenities.", estimatedMonthlyRent: 1750, petFriendly: true, parkingIncluded: true, inUnitLaundry: true },
+  { id: 32, monthlyRentPrice: 2600, price: 2600, address: "1320 Abbot Kinney Boulevard", city: "Los Angeles", state: "CA", zip: "90291", beds: 1, baths: 1, squareFeet: 740, propertyType: "Beach apartment", latitude: 33.991, longitude: -118.466, neighborhood: { schools: 84, safety: 84, amenities: 95, accessibility: 88, housingValue: 83 }, image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85", imageAlt: "Relaxed apartment with bright wood interior", label: "Near the beach", description: "A calm beach-area apartment with a private outdoor corner and easy access to local shops.", estimatedMonthlyRent: 2600, petFriendly: false, parkingIncluded: true, inUnitLaundry: false },
+  { id: 33, monthlyRentPrice: 2250, price: 2250, address: "475 Highland Avenue Northeast", city: "Atlanta", state: "GA", zip: "30312", beds: 2, baths: 2, squareFeet: 1060, propertyType: "Converted loft", latitude: 33.762, longitude: -84.365, neighborhood: { schools: 81, safety: 82, amenities: 93, accessibility: 87, housingValue: 86 }, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85", imageAlt: "Stylish loft home with a leafy entrance", label: "In-unit laundry", description: "A distinctive loft-style rental with generous living space, a work nook, and close access to the BeltLine.", estimatedMonthlyRent: 2250, petFriendly: true, parkingIncluded: true, inUnitLaundry: true },
+  { id: 34, monthlyRentPrice: 2900, price: 2900, address: "641 South Broadway", city: "Denver", state: "CO", zip: "80209", beds: 3, baths: 2, squareFeet: 1420, propertyType: "Duplex", latitude: 39.71, longitude: -104.987, neighborhood: { schools: 86, safety: 87, amenities: 90, accessibility: 86, housingValue: 90 }, image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85", imageAlt: "Modern duplex with a landscaped front entry", label: "Private yard", description: "A spacious duplex rental with three bedrooms, a fenced outdoor area, and an easy route to downtown Denver.", estimatedMonthlyRent: 2900, petFriendly: true, parkingIncluded: true, inUnitLaundry: true },
+].map((listing) => ({ ...rentalListingDefaults, ...listing }));
 
 export const properties: Property[] = [
   {
@@ -660,6 +688,100 @@ export const properties: Property[] = [
     defaultDownPaymentPercent: 20,
     defaultInterestRate: 6.6,
   },
+  {
+    id: 22,
+    listingIntent: "rent",
+    monthlyRentPrice: 2850,
+    petFriendly: true,
+    parkingIncluded: false,
+    inUnitLaundry: true,
+    price: 2850,
+    address: "731 Northeast 34th Avenue",
+    city: "Portland",
+    state: "OR",
+    zip: "97232",
+    beds: 2,
+    baths: 2,
+    squareFeet: 1120,
+    propertyType: "Apartment",
+    latitude: 45.5326,
+    longitude: -122.6292,
+    neighborhood: { schools: 86, safety: 85, amenities: 93, accessibility: 94, housingValue: 88 },
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=85",
+    imageAlt: "Bright modern apartment living room",
+    label: "Available now",
+    description: "A light-filled apartment with in-unit laundry, a flexible second bedroom, and quick access to neighborhood cafes and transit.",
+    financials: { annualPropertyTax: 0, monthlyInsurance: 0, monthlyHoa: 0, estimatedMonthlyMaintenance: 0 },
+    estimatedMonthlyRent: 2850,
+    defaultVacancyRate: 0,
+    defaultMaintenanceRate: 0,
+    defaultAnnualAppreciationRate: 0,
+    defaultDownPaymentPercent: 0,
+    defaultInterestRate: 0,
+  },
+  {
+    id: 23,
+    listingIntent: "rent",
+    monthlyRentPrice: 3400,
+    petFriendly: true,
+    parkingIncluded: true,
+    inUnitLaundry: true,
+    price: 3400,
+    address: "1921 South Congress Avenue",
+    city: "Austin",
+    state: "TX",
+    zip: "78704",
+    beds: 3,
+    baths: 2.5,
+    squareFeet: 1540,
+    propertyType: "Townhome",
+    latitude: 30.2461,
+    longitude: -97.7501,
+    neighborhood: { schools: 82, safety: 81, amenities: 96, accessibility: 91, housingValue: 85 },
+    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=85",
+    imageAlt: "Contemporary townhome with a sunny exterior",
+    label: "Pet friendly",
+    description: "A spacious rental townhome with a private patio, attached garage, and an easy walk to South Congress favorites.",
+    financials: { annualPropertyTax: 0, monthlyInsurance: 0, monthlyHoa: 0, estimatedMonthlyMaintenance: 0 },
+    estimatedMonthlyRent: 3400,
+    defaultVacancyRate: 0,
+    defaultMaintenanceRate: 0,
+    defaultAnnualAppreciationRate: 0,
+    defaultDownPaymentPercent: 0,
+    defaultInterestRate: 0,
+  },
+  {
+    id: 24,
+    listingIntent: "rent",
+    monthlyRentPrice: 2450,
+    petFriendly: false,
+    parkingIncluded: true,
+    inUnitLaundry: false,
+    price: 2450,
+    address: "4808 North Damen Avenue",
+    city: "Chicago",
+    state: "IL",
+    zip: "60625",
+    beds: 2,
+    baths: 1,
+    squareFeet: 980,
+    propertyType: "Garden apartment",
+    latitude: 41.9686,
+    longitude: -87.6792,
+    neighborhood: { schools: 84, safety: 83, amenities: 90, accessibility: 89, housingValue: 86 },
+    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85",
+    imageAlt: "Warm apartment with an open living space",
+    label: "Tour this week",
+    description: "A welcoming two-bedroom rental with hardwood floors, generous natural light, and parks and groceries close by.",
+    financials: { annualPropertyTax: 0, monthlyInsurance: 0, monthlyHoa: 0, estimatedMonthlyMaintenance: 0 },
+    estimatedMonthlyRent: 2450,
+    defaultVacancyRate: 0,
+    defaultMaintenanceRate: 0,
+    defaultAnnualAppreciationRate: 0,
+    defaultDownPaymentPercent: 0,
+    defaultInterestRate: 0,
+  },
+  ...additionalRentalListings,
 ];
 
 export function getPropertyById(id: number): Property | undefined {

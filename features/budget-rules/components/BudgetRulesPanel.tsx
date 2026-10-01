@@ -76,11 +76,15 @@ export function BudgetRulesPanel({
   onSearch,
   onReset,
   profileOverride,
+  storageKey,
+  savedStatusLabel,
 }: {
   onProfileChange?: (profile: BudgetProfile) => void;
   onSearch?: (profile: BudgetProfile) => void;
   onReset?: () => void;
   profileOverride?: BudgetProfile | null;
+  storageKey?: string;
+  savedStatusLabel?: string;
 }) {
   const [profile, setProfile] = useState<BudgetProfile>(createDefaultBudgetProfile);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -88,12 +92,12 @@ export function BudgetRulesPanel({
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
-      setProfile(loadBudgetProfile());
+      setProfile(loadBudgetProfile(storageKey));
       setHasLoaded(true);
     }, 0);
 
     return () => window.clearTimeout(timeoutId);
-  }, []);
+  }, [storageKey]);
 
   useEffect(() => {
     if (!profileOverride) return undefined;
@@ -104,9 +108,9 @@ export function BudgetRulesPanel({
 
   useEffect(() => {
     if (hasLoaded) {
-      saveBudgetProfile(profile);
+      saveBudgetProfile(profile, storageKey);
     }
-  }, [hasLoaded, profile]);
+  }, [hasLoaded, profile, storageKey]);
 
   useEffect(() => {
     if (hasLoaded) {
@@ -146,9 +150,9 @@ export function BudgetRulesPanel({
             Mark non-negotiables as Must Have, softer priorities as Prefer, or leave a rule out.
           </p>
         </div>
-        <span className="budget-rules-status" aria-live="polite">
-          {hasLoaded ? "Saved on this device" : "Loading your rules"}
-        </span>
+          <span className="budget-rules-status" aria-live="polite">
+          {hasLoaded ? savedStatusLabel ?? "Saved on this device" : "Loading your rules"}
+          </span>
       </div>
 
       {errors.length > 0 && (
