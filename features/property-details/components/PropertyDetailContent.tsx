@@ -88,6 +88,8 @@ export function PropertyDetailContent({
   const [rateStressPoints, setRateStressPoints] = useState(1);
   const [hoaStressPercent, setHoaStressPercent] = useState(15);
   const [reserveMonths, setReserveMonths] = useState(6);
+  const [liveMarketTrend, setLiveMarketTrend] = useState(marketTrend);
+  const [liveNeighborhoodContext, setLiveNeighborhoodContext] = useState(neighborhoodContext);
   const [budgetProfile, setBudgetProfile] = useState<BudgetProfile>(createDefaultBudgetProfile);
   const [mortgageAssumptions, setMortgageAssumptions] = useState({
     downPaymentPercent: property.defaultDownPaymentPercent,
@@ -133,6 +135,27 @@ export function PropertyDetailContent({
     const timeoutId = window.setTimeout(() => setBudgetProfile(loadBudgetProfile()), 0);
     return () => window.clearTimeout(timeoutId);
   }, []);
+
+  useEffect(() => {
+    if (liveMarketTrend && liveNeighborhoodContext) return undefined;
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => {
+      fetch(`/api/property-context?id=${property.id}`, { signal: controller.signal })
+        .then((response) => response.ok ? response.json() : null)
+        .then((context: { marketTrend: MarketTrend | null; neighborhoodContext: NeighborhoodContextData | null } | null) => {
+          if (!context) return;
+          setLiveMarketTrend(context.marketTrend);
+          setLiveNeighborhoodContext(context.neighborhoodContext);
+        })
+        .catch(() => undefined);
+    }, 800);
+
+    return () => {
+      controller.abort();
+      window.clearTimeout(timeoutId);
+    };
+  }, [liveMarketTrend, liveNeighborhoodContext, property.id]);
 
   const monthlyCostRows: { label: string; value: number | null }[] = [
     { label: "Mortgage principal + interest", value: trueMonthlyCost.mortgagePrincipalAndInterest },
@@ -384,7 +407,7 @@ export function PropertyDetailContent({
             <p className="detail-score-note">
               Each category counts for 20% of this score. Strongest factors: {neighborhoodScore.strongestFactors.join(" and ")}. Areas to explore: {neighborhoodScore.lowerFactors.join(" and ")}.
             </p>
-            <NeighborhoodContext context={neighborhoodContext} />
+            <NeighborhoodContext context={liveNeighborhoodContext} />
           </section>
 
           <section className="detail-panel">
@@ -471,7 +494,7 @@ export function PropertyDetailContent({
 
           <NearbyPlaces property={property} />
         </div>
-        <InvestmentAnalysis property={property} marketTrend={marketTrend} />
+        <InvestmentAnalysis property={property} marketTrend={liveMarketTrend} />
       </div>
     </main>
   );

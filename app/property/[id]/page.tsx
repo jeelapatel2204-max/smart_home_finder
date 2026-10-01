@@ -1,7 +1,5 @@
 import { notFound } from "next/navigation";
 import { PropertyDetailContent } from "@/features/property-details/components/PropertyDetailContent";
-import { getCityMarketTrend } from "@/features/market-trends/lib/zillow-zhvi";
-import { getOpenStreetMapNeighborhoodContext } from "@/features/neighborhoods/lib/openstreetmap";
 import { getPropertyById, type Property } from "@/features/properties/data/properties";
 
 export default async function PropertyDetailPage({
@@ -16,12 +14,9 @@ export default async function PropertyDetailPage({
     notFound();
   }
 
-  const [marketTrend, neighborhoodContext] = await Promise.all([
-    getCityMarketTrend(property.city, property.state),
-    getOpenStreetMapNeighborhoodContext(property.latitude, property.longitude),
-  ]);
-
-  return <PropertyDetailContent property={property} marketTrend={marketTrend} neighborhoodContext={neighborhoodContext} />;
+  // Listing details should never wait for optional third-party market or map data.
+  // The client requests that context after the primary decision experience is visible.
+  return <PropertyDetailContent property={property} marketTrend={null} neighborhoodContext={null} />;
 }
 
 export type { Property };
