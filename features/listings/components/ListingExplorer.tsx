@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { BudgetRulesPanel } from "@/features/budget-rules/components/BudgetRulesPanel";
 import { ComparisonPanel } from "@/features/comparison/components/ComparisonPanel";
 import { comparisonLimit, toggleComparisonSelection } from "@/features/comparison/lib/selection";
+import { loadComparisonIds, saveComparisonIds } from "@/features/comparison/lib/browser-selection";
 import { createDefaultBudgetProfile, type BudgetProfile } from "@/features/budget-rules/lib/preference-profile";
 import { calculateTrueMonthlyCost } from "@/features/financials/lib/true-monthly-cost";
 import { properties, type Property } from "@/features/properties/data/properties";
@@ -311,6 +312,7 @@ export function ListingExplorer() {
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const [budgetProfile, setBudgetProfile] = useState<BudgetProfile>(createDefaultBudgetProfile);
   const [comparisonIds, setComparisonIds] = useState<number[]>([]);
+  const [comparisonLoaded, setComparisonLoaded] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [listingIntent, setListingIntent] = useState<"sale" | "rent">("sale");
   const [rentalPetFriendly, setRentalPetFriendly] = useState(false);
@@ -353,6 +355,13 @@ export function ListingExplorer() {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [activeNeighborhoodProperty]);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => { setComparisonIds(loadComparisonIds()); setComparisonLoaded(true); }, 0);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
+  useEffect(() => { if (comparisonLoaded) saveComparisonIds(comparisonIds); }, [comparisonIds, comparisonLoaded]);
 
   useEffect(() => {
     if (!showFilters) {
@@ -558,8 +567,9 @@ export function ListingExplorer() {
           </a>
           <nav className="main-nav" aria-label="Main navigation">
             <a className={`nav-link${listingIntent === "sale" ? " active" : ""}`} href="#homes" onClick={() => { setListingIntent("sale"); showAllHomes(); }}>Buy</a>
-            <a className="nav-link" href="/sell">Sell</a>
             <a className={`nav-link${listingIntent === "rent" ? " active" : ""}`} href="#homes" onClick={() => { setListingIntent("rent"); showAllHomes(); }}>Rent</a>
+            <a className="nav-link" href="/compare">Compare{comparisonIds.length ? ` (${comparisonIds.length})` : ""}</a>
+            <a className="nav-link" href="/sell">Sell</a>
             <a
               className={`nav-link favorites-link${showFavoritesOnly ? " active" : ""}`}
               href="#homes"

@@ -26,7 +26,7 @@ export function ComparisonPanel({
       </div>
       <div className="comparison-scroll">
         <table>
-          <thead><tr><th>Home</th>{properties.map((property) => <th key={property.id}>{property.address}</th>)}</tr></thead>
+          <thead><tr><th>Home</th>{properties.map((property) => <th key={property.id}><div className="comparison-home-heading"><div className="comparison-home-photo" role="img" aria-label={property.imageAlt} style={{ backgroundImage: `url("${property.image}")` }} /><span>{property.address}</span><small>{property.city}, {property.state}</small></div></th>)}</tr></thead>
           <tbody>
             <tr><th>Listing price</th>{properties.map((property) => <td key={property.id}>{currency.format(property.price)}</td>)}</tr>
             <tr><th>Beds / baths</th>{properties.map((property) => <td key={property.id}>{property.beds} bd · {property.baths} ba</td>)}</tr>

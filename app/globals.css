@@ -3456,6 +3456,21 @@ button {
   font-weight: 700;
 }
 
+.compare-page { background: var(--background); min-height: 100vh; }
+.compare-page-content { display: flex; flex-direction: column; margin: 0 auto; max-width: 1240px; min-height: calc(100vh - 78px); padding: 72px 32px; width: 100%; }
+.compare-page-content > h1 { color: #172033; font-family: var(--font-cormorant), Georgia, serif; font-size: clamp(45px, 6vw, 72px); font-weight: 500; margin: 12px 0 10px; }
+.compare-page-content > p:not(.eyebrow) { color: var(--muted); font-size: 14px; margin: 0; max-width: 520px; }
+.compare-page-content .comparison-panel { margin-top: 36px; }
+.compare-empty { background: #fff; border: 1px solid #e0e8f0; border-radius: 10px; margin-top: 36px; padding: 36px; }
+.compare-empty h2 { color: #172033; font-family: var(--font-cormorant), Georgia, serif; font-size: 32px; font-weight: 500; margin: 0 0 8px; }
+.compare-empty p { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+.compare-empty a { background: var(--green); border-radius: 6px; color: #fff; display: inline-block; font-size: 11px; font-weight: 700; padding: 10px 13px; }
+.compare-limit-note { border-top: 1px solid #dfe8f2; bottom: 24px; color: #536b87; font-family: var(--font-cormorant), Georgia, serif; font-size: 18px; left: 50%; line-height: 1.35; margin: 0; max-width: 520px; padding-top: 20px; position: fixed; text-align: center; transform: translateX(-50%); width: calc(100% - 40px); z-index: 2; }
+.comparison-home-heading { display: grid; gap: 6px; min-width: 150px; }
+.comparison-home-photo { background-position: center; background-size: cover; height: 100px; width: 100%; }
+.comparison-home-heading span { color: #172033; font-size: 11px; line-height: 1.35; }
+.comparison-home-heading small { color: #6d7d91; font-size: 9px; font-weight: 500; }
+
 /* Luxury editorial visual system */
 .site-header, .detail-header { background: #fff; border-color: #edf3f9; }
 .brand { color: #0b1930; font-family: var(--font-manrope), sans-serif; letter-spacing: .02em; }
