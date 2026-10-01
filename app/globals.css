@@ -3532,6 +3532,116 @@ button {
 .listing-intent-toggle button.is-selected, .rental-filter-chips button.is-selected, .rental-modal-amenities button.is-selected { background: #0b1930; border-color: #0b1930; }
 .dossier-eyebrow { color: #9fc8ef !important; }
 
+.theme-mode-button {
+  align-items: center;
+  background: #0b1930;
+  border: 1px solid rgba(255,255,255,.26);
+  border-radius: 999px;
+  bottom: 20px;
+  box-shadow: 0 8px 22px rgba(11, 25, 48, .22);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  gap: 7px;
+  padding: 10px 13px;
+  position: fixed;
+  right: 20px;
+  z-index: 30;
+}
+.theme-mode-button:hover { background: #17395e; }
+.theme-mode-button span { font-size: 15px; line-height: 1; }
+
+html[data-theme="dark"] {
+  --background: #10110f;
+  --foreground: #eeefe9;
+  --muted: #b8bbb2;
+  --line: #34362f;
+  --mint: #20221e;
+  --coral: #4c5145;
+  color-scheme: dark;
+}
+html[data-theme="dark"] .site-header,
+html[data-theme="dark"] .detail-header,
+html[data-theme="dark"] .property-detail-summary,
+html[data-theme="dark"] .detail-panel,
+html[data-theme="dark"] .property-card,
+html[data-theme="dark"] .search-form,
+html[data-theme="dark"] .filters-modal,
+html[data-theme="dark"] .tour-modal,
+html[data-theme="dark"] .compare-empty,
+html[data-theme="dark"] .account-modal,
+html[data-theme="dark"] .feedback-modal {
+  background: #191a17;
+  border-color: #363831;
+}
+html[data-theme="dark"] .property-detail-page,
+html[data-theme="dark"] .hero-section { background: #10110f; }
+html[data-theme="dark"] .hero-section { background-image: linear-gradient(90deg, rgba(16,17,15,.98), rgba(16,17,15,.8)); }
+html[data-theme="dark"] .decision-dossier { background: linear-gradient(135deg, #151613, #242720); }
+html[data-theme="dark"] .listing-intent-toggle button.is-selected,
+html[data-theme="dark"] .search-button,
+html[data-theme="dark"] .property-save-button,
+html[data-theme="dark"] .tour-summary-button,
+html[data-theme="dark"] .tour-submit-button { background: #24251f; }
+html[data-theme="dark"] .brand,
+html[data-theme="dark"] .hero-copy h1,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .property-card h2,
+html[data-theme="dark"] .property-detail-about h2,
+html[data-theme="dark"] .detail-panel h2,
+html[data-theme="dark"] .compare-page-content > h1,
+html[data-theme="dark"] .compare-empty h2,
+html[data-theme="dark"] .property-detail-price,
+html[data-theme="dark"] .property-detail-address,
+html[data-theme="dark"] .property-details strong,
+html[data-theme="dark"] .comparison-home-heading span { color: #f1f1eb; }
+html[data-theme="dark"] .nav-link,
+html[data-theme="dark"] .hero-description,
+html[data-theme="dark"] .detail-panel p,
+html[data-theme="dark"] .property-detail-about p,
+html[data-theme="dark"] .property-detail-location,
+html[data-theme="dark"] .property-details,
+html[data-theme="dark"] .comparison-home-heading small,
+html[data-theme="dark"] .compare-limit-note { color: #b9bbb2; }
+html[data-theme="dark"] .nav-link:hover,
+html[data-theme="dark"] .nav-link.active { color: #fff; }
+html[data-theme="dark"] .sign-in-button,
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] .listing-sort-control select {
+  background: #20211d;
+  border-color: #45483e;
+  color: #eeefe9;
+}
+html[data-theme="dark"] .property-share-button,
+html[data-theme="dark"] .detail-filters-button,
+html[data-theme="dark"] .rental-tour-button { background: #293129; border-color: #556452; color: #e4eee1; }
+html[data-theme="dark"] .monthly-cost-row,
+html[data-theme="dark"] .match-detail-group,
+html[data-theme="dark"] .daily-life-commute { border-color: #363831; }
+html[data-theme="dark"] .daily-life-result,
+html[data-theme="dark"] .daily-life-essentials div,
+html[data-theme="dark"] .advisor-answer { background: #22241f; border-color: #43483d; }
+html[data-theme="dark"] .smart-home-advisor { background: linear-gradient(135deg, #1b201b, #252b24); border-color: #4a5549; }
+html[data-theme="dark"] .smart-home-advisor h2,
+html[data-theme="dark"] .advisor-answer strong,
+html[data-theme="dark"] .daily-life-result strong { color: #f1f1eb; }
+html[data-theme="dark"] .advisor-answer p,
+html[data-theme="dark"] .advisor-answer ul,
+html[data-theme="dark"] .daily-life-result span,
+html[data-theme="dark"] .daily-life-result small { color: #c5c9be; }
+html[data-theme="dark"] .advisor-prompts button { background: #293129; border-color: #556452; color: #e4eee1; }
+html[data-theme="dark"] .theme-mode-button { background: #e8ebe4; border-color: #d4d8cf; color: #181916; }
+html[data-theme="dark"] .theme-mode-button:hover { background: #d9dfd3; }
+
+@media (max-width: 680px) {
+  .theme-mode-button { bottom: 14px; right: 14px; }
+}
+
 /* Navy-blue application theme */
 .site-header,
 .detail-header,
