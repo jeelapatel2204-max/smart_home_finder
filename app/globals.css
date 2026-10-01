@@ -2,14 +2,14 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #172033;
-  --muted: #5f6f86;
-  --line: #dfe8f2;
+  --background: #f5f8fc;
+  --foreground: #0b1f3a;
+  --muted: #536b87;
+  --line: #d8e4f1;
   --green: #0b1f3a;
-  --green-dark: #163a5f;
-  --mint: #f4f7fa;
-  --coral: #b7c9db;
+  --green-dark: #163f70;
+  --mint: #edf4fc;
+  --coral: #b9cde3;
 }
 
 @theme inline {
@@ -1837,12 +1837,193 @@ button {
   font-size: 12px;
 }
 
+.property-detail-about {
+  border-top: 1px solid #edf3f9;
+  margin-top: 22px;
+  padding-top: 20px;
+}
+
+.property-detail-about h2 {
+  color: #172033;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 400;
+  margin: 0 0 8px;
+}
+
+.property-detail-about p {
+  color: #5f6f86;
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+}
+
 .detail-content-grid {
   display: grid;
   gap: 22px;
   grid-template-columns: 1fr 1fr;
   margin-top: 28px;
 }
+
+.decision-dossier {
+  background: linear-gradient(135deg, #0b1f3a, #163f70);
+  border-radius: 14px;
+  color: #fff;
+  grid-column: 1 / -1;
+  padding: 30px;
+}
+
+.dossier-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.dossier-eyebrow {
+  color: #4b897d !important;
+  font-size: 10px !important;
+  font-weight: 750;
+  letter-spacing: .1em;
+  margin: 0 0 8px !important;
+  text-transform: uppercase;
+}
+
+.decision-dossier .dossier-eyebrow { color: #9fc8ef !important; }
+
+.dossier-heading h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 400;
+  letter-spacing: -.025em;
+  margin: 0;
+}
+
+.dossier-verdict {
+  background: #e2f5df;
+  border-radius: 999px;
+  color: #15513b;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 8px 11px;
+  white-space: nowrap;
+}
+
+.dossier-verdict.is-caution { background: #ffe8bc; color: #744500; }
+.dossier-verdict.is-neutral { background: #e2ebef; color: #244559; }
+
+.dossier-reset-button {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.38);
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 750;
+  padding: 8px 11px;
+  white-space: nowrap;
+}
+
+.dossier-reset-button:hover { background: rgba(255,255,255,.12); }
+
+.dossier-intro {
+  color: #d9ebe6;
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 12px 0 22px;
+}
+
+.dossier-grid, .stress-list {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dossier-action-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 18px;
+}
+
+.dossier-action-card {
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 9px;
+  padding: 17px;
+}
+
+.dossier-action-card h3 { font-family: Georgia, "Times New Roman", serif; font-size: 20px; font-weight: 400; margin: 0 0 11px; }
+.dossier-action-card > p:last-child { color: #e0ebf5; font-size: 11px; line-height: 1.6; margin: 0; }
+.dossier-action-card ul { color: #e0ebf5; display: grid; font-size: 11px; gap: 8px; line-height: 1.5; margin: 0; padding-left: 16px; }
+.dossier-action-card .offer-amount { background: rgba(255, 255, 255, .12); margin-bottom: 11px; }
+.dossier-action-card .offer-amount span { color: #c4d9ef; }
+.dossier-action-card .offer-amount strong { color: #fff; }
+.dossier-action-card .stress-list { gap: 8px; }
+.dossier-action-card .stress-list > div { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .12); padding: 10px; }
+.dossier-action-card .stress-list span { color: #c4d9ef; }
+.dossier-action-card .stress-list strong { color: #fff; font-size: 17px; }
+.dossier-action-card .stress-list small { color: #d8e6f4; }
+.stress-adjuster { display: flex; gap: 5px; margin-top: 3px; }
+.stress-adjuster button { font-size: 13px; min-height: 24px; min-width: 24px; }
+.dossier-action-card .future-fit-controls button { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .18); color: #e0ebf5; }
+.dossier-action-card .future-fit-controls button.is-selected { background: #dbeeff; border-color: #dbeeff; color: #123b66; }
+
+.dossier-grid > div, .stress-list > div {
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 9px;
+  display: grid;
+  gap: 5px;
+  padding: 14px;
+}
+
+.dossier-grid span, .stress-list span, .offer-amount span {
+  color: #c4d9ef;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.dossier-grid strong, .stress-list strong, .offer-amount strong {
+  color: #fff;
+  font-size: 21px;
+  letter-spacing: -.025em;
+}
+
+.dossier-grid small, .stress-list small { color: #d8e6f4; font-size: 10px; line-height: 1.4; }
+.dossier-controls { border-top: 1px solid rgba(255,255,255,.18); display: flex; flex-wrap: wrap; gap: 22px; margin-top: 20px; padding-top: 17px; }
+.dossier-control { align-items: center; display: flex; gap: 12px; }
+.dossier-control > span { color: #c4d9ef; font-size: 10px; font-weight: 700; }
+.dossier-control > div { align-items: center; display: flex; gap: 7px; }
+.dossier-control strong { color: #fff; font-size: 12px; min-width: 104px; text-align: center; }
+.dossier-inline-verdict { background: #e2f5df; border-radius: 999px; color: #15513b; font-size: 10px; font-weight: 800; padding: 7px 9px; white-space: nowrap; }
+.dossier-inline-verdict.is-caution { background: #ffe8bc; color: #744500; }
+.dossier-inline-verdict.is-neutral { background: #e2ebef; color: #244559; }
+.dossier-control button, .stress-adjuster button { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 5px; color: #fff; cursor: pointer; font: inherit; font-size: 15px; line-height: 1; min-height: 28px; min-width: 28px; padding: 5px; }
+.dossier-control button:hover, .stress-adjuster button:hover { background: rgba(255,255,255,.2); }
+.dossier-choice-buttons button { font-size: 10px; min-width: auto; padding: 6px 9px; }
+.dossier-choice-buttons button.is-selected { background: #d8f0df; border-color: #d8f0df; color: #15513b; }
+.dossier-tradeoff { border-top: 1px solid rgba(255,255,255,.18); color: #e0ebf5; font-size: 12px; line-height: 1.65; margin: 20px 0 0; padding-top: 17px; }
+.dossier-tradeoff strong { color: #fff; }
+
+.dossier-panel h2 { margin-bottom: 14px; }
+.stress-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stress-list > div { background: #f3f8f7; border-color: #dfede8; }
+.stress-list span, .offer-amount span { color: #52776d; }
+.stress-list strong, .offer-amount strong { color: #163c35; font-size: 19px; }
+.stress-list small { color: #5f7880; }
+.stress-list + .detail-estimate-note { margin-top: 15px !important; }
+
+.future-fit-controls { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 15px; }
+.future-fit-controls button { background: #f1f6f4; border: 1px solid #d6e4df; border-radius: 999px; color: #47665e; cursor: pointer; font: inherit; font-size: 10px; font-weight: 700; padding: 8px 10px; }
+.future-fit-controls button.is-selected { background: #1e6558; border-color: #1e6558; color: #fff; }
+
+.offer-amount { background: #eff7f3; border-radius: 8px; display: grid; gap: 4px; margin: 0 0 15px; padding: 14px; }
+.due-diligence-panel { grid-column: 1 / -1; }
+.due-diligence-panel ul { color: #5f6f86; display: grid; font-size: 12px; gap: 10px; line-height: 1.55; margin: 0; padding-left: 18px; }
 
 .detail-panel {
   background: #fff;
@@ -2933,6 +3114,11 @@ button {
     min-height: 280px;
   }
 
+  .decision-dossier { padding: 22px; }
+  .dossier-heading { flex-direction: column; gap: 12px; }
+  .dossier-grid, .dossier-action-grid { grid-template-columns: 1fr; }
+  .dossier-controls { align-items: flex-start; flex-direction: column; gap: 13px; }
+
   .investment-analysis {
     padding: 20px;
   }
@@ -3054,4 +3240,56 @@ button {
 .route-state-link {
   color: #163a5f;
   font-weight: 700;
+}
+
+/* Navy-blue application theme */
+.site-header,
+.detail-header,
+.property-detail-summary,
+.detail-panel,
+.account-modal,
+.feedback-modal {
+  border-color: #d8e4f1;
+}
+
+.site-header,
+.detail-header { background: #fbfdff; }
+.property-detail-page { background: #f5f8fc; }
+
+.account-modal .account-message,
+.feedback-status,
+.saved-search-message,
+.seller-form-status,
+.comparison-scroll button,
+.account-delete-account-button {
+  color: #1e5a92 !important;
+}
+
+.nearby-radius-badge,
+.nearby-place-category,
+.property-match-badge,
+.budget-rules-status {
+  background: #edf5ff;
+  color: #1e5a92;
+}
+
+.match-detail-heading strong,
+.match-detail-group h3,
+.detail-score-value strong,
+.monthly-cost-reset-button,
+.detail-back-button {
+  color: #1e5a92;
+}
+
+.detail-score-track > span {
+  background: linear-gradient(90deg, #9dbde0, #1e5a92);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #8ab6e0;
+  outline-offset: 2px;
 }
