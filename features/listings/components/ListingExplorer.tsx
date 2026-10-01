@@ -560,7 +560,6 @@ export function ListingExplorer() {
             <a className={`nav-link${listingIntent === "sale" ? " active" : ""}`} href="#homes" onClick={() => { setListingIntent("sale"); showAllHomes(); }}>Buy</a>
             <a className="nav-link" href="/sell">Sell</a>
             <a className={`nav-link${listingIntent === "rent" ? " active" : ""}`} href="#homes" onClick={() => { setListingIntent("rent"); showAllHomes(); }}>Rent</a>
-            <a className="nav-link" href="#neighborhood-score">Neighborhoods</a>
             <a
               className={`nav-link favorites-link${showFavoritesOnly ? " active" : ""}`}
               href="#homes"
